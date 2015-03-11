@@ -1,0 +1,173 @@
+(()->
+
+    window.aMD = if window.aMD then window.aMD else {}
+
+    init = ()->
+        aMD.md = new Markdown.Converter()
+
+        # Input fields
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w \t\-]+)\))?/g, (whole,label,required,_size,size,_placeholder,placeholder)->
+            label = label.trim().replace /\t/g, ' '
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            size = if size then size else 20
+            placeholder = if placeholder then placeholder else ''
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            result += '<input type="text" name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
+            result += '</fieldset>'
+            return result
+
+        # Textareas
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            cols = if cols then cols else 48
+            rows = if rows then rows else 12
+            placeholder = if placeholder then placeholder else ''
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            result += '<textarea name="'+name+'" cols="'+cols+'" rows="'+rows+'" placeholder="'+placeholder+'"></textarea>'
+            result += '</fieldset>'
+            return result
+
+        # Radio buttons
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\w \t\-]+)+)/g, (whole,label,required,radios,last_radio)->
+            label = label.trim().replace /\t/g, ' '
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            cleaned_radios = radios.trim().replace /\t/g, ' '
+            radio_regex = /\((x?)\)[ \t]?([\w \t\-]+)/g
+            match = radio_regex.exec cleaned_radios
+            while match
+              radio_label = match[2].trim().replace /\t/g, ' '
+              radio_id = radio_label.replace(/[ \t]/g,'-').toLowerCase()
+              checked = if match[1] is 'x' then 'checked="checked"' else ''
+              result += '<input id="'+radio_id+'" type="radio" name="'+name+'" value="'+radio_id+'"'+checked+' />'
+              result += '<label for="'+radio_id+'">'+radio_label+'</label>'
+              match = radio_regex.exec cleaned_radios
+            result += '</fieldset>'
+            return result
+
+        # Checkboxes
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\w \t\-]+)+)/g, (whole,label,required,checkboxes,last_checkbox)->
+            label = label.trim().replace /\t/g, ' '
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            cleaned_checkboxes = checkboxes.trim().replace /\t/g, ' '
+            checkbox_regex = /\[(x?)\][ \t]?([\w \t\-]+)/g
+            match = checkbox_regex.exec cleaned_checkboxes
+            while match
+              checkbox_label = match[2].trim().replace /\t/g, ' '
+              checkbox_id = checkbox_label.replace(/[ \t]/g,'-').toLowerCase()
+              checked = if match[1] is 'x' then 'checked="checked"' else ''
+              result += '<input id="'+checkbox_id+'" type="checkbox" name="'+name+'" '+checked+' />'
+              result += '<label for="'+checkbox_id+'">'+checkbox_label+'</label>'
+              match = checkbox_regex.exec cleaned_checkboxes
+            result += '</fieldset>'
+            return result
+
+        # Select
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, (whole,label,required,options)->
+            label = label.trim().replace /\t/g, ' '
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            result += '<select name="'+name+'">'
+            cleaned_options = options.trim().replace /\t/g, ' '
+            option_regex = /(>)?[ \t]*(\w[\w \t\-]+)+(\[[\w \t\-]+\])*(<)?/g
+            match = option_regex.exec cleaned_options
+            while match
+              option_label = match[2].trim().replace /\t/g, ' '
+              raw_value = if match[3] then match[3] else option_label
+              value =  raw_value.replace(/[ \t]/g,'-').toLowerCase()
+              selected = if match[1] or match[4] then 'selected' else ''
+              result += '<option value="'+value+'" type="option" name="'+name+'" '+selected+'>'+option_label+'</option>'
+              match = option_regex.exec cleaned_options
+            result += '</fieldset>'
+            return result
+
+        # Submit
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, (whole,label,type)->
+            label = label.trim().replace /\t/g, ' '
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            type = type.trim().toLowerCase()
+            result = '<button type="'+type+'" name="'+name+'" id="'+name+'">'+label+'</button>'
+            return result
+
+        # Obfuscated email addresses
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
+            hashed_email = ''
+            hashed_link = ''
+            l = email.length
+            for char,i in email.split('')
+              hashed_email += email.charCodeAt i
+              if i < l-1 then hashed_email += ','
+            l = link.length
+            for char,i in link.split('')
+              hashed_link += link.charCodeAt i
+              if i < l-1 then hashed_link += ','
+            result = '<a data-pml="'+hashed_email+'" data-link="'+hashed_link+'">[protected link]</a>'
+            return result
+
+        # TODO
+        # Extend link with target
+        # aMD.md.hooks.chain 'preSpanGamut', (text,runSpanGamut)->
+        #   return text.replace /(\[((?:\[[^\]]*\]|[^\[\]])*)\]\([ \t]*()<?((?:\([^)]*\)|[^()\s])*?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g, (wholeMatch, m1, m2, m3, m4, m5, m6, m7, m8, m9)->
+        #     if m7 is undefined then m7 = ""
+        #     if m9 is undefined then m9 = ""
+        #     whole_match = m1
+        #     link_text = m2.replace(/:\/\//g, "~P")
+        #     link_id = m3.toLowerCase()
+        #     url = m4
+        #     title = m7
+
+        #     if url is ''
+        #         if link_id is ''
+        #             link_id = link_text.toLowerCase().replace /[ ]?\n/g, ' '
+        #         url = "#" + link_id
+
+        #         if aMD.md.g_urls.get(link_id) isnt undefined
+        #             url = aMD.md.g_urls.get(link_id)
+        #             if aMD.md.g_titles.get(link_id) isnt undefined
+        #                 title = aMD.md.g_titles.get(link_id)
+        #         else
+        #             if whole_match.search(/\(\s*\)$/m) > -1
+        #                 url = ""
+        #             else
+        #                 return whole_match
+        #     url = aMD.md.encodeProblemUrlChars(url)
+        #     url = aMD.md.escapeCharacters(url, "*_")
+        #     result = "<a href=\"" + url + "\""
+
+        #     if title isnt ""
+        #         title = aMD.md.attributeEncode(title)
+        #         title = aMD.md.escapeCharacters(title, "*_")
+        #         result += " title=\"" + title + "\""
+
+        #     result += ">" + link_text + "</a>"
+
+        #     return result
+
+        # Hard line breaks in <p>
+        aMD.md.hooks.chain 'preSpanGamut', (text,runSpanGamut)->
+          return text.replace /\n/g, '<br>'
+
+    aMD.makeHtml = (text)->
+        return aMD.md.makeHtml(text)
+
+    init()
+
+)()
