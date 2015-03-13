@@ -5,7 +5,12 @@
     "Anthon Astrom <anthon@astromzimmer.com>"
   ],
   "description": "A markdown editor",
-  "main": "jquery.aMD.coffee",
+  "main": [
+    "jquery-fieldselection.mod.js",
+    "Markdown.Converter.js",
+    "Markdown.Sanitizer.js",
+    "jquery.aMD.coffee"
+  ],
   "license": "aLICENSE",
   "homepage": "astromzimmer.com",
   "ignore": [
