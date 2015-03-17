@@ -9,6 +9,7 @@
     "jquery-fieldselection.mod.js",
     "Markdown.Converter.js",
     "Markdown.Sanitizer.js",
+    "aMD.Converter.js",
     "jquery.aMD.coffee"
   ],
   "license": "aLICENSE",
