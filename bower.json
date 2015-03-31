@@ -9,8 +9,8 @@
     "jquery-fieldselection.mod.js",
     "Markdown.Converter.js",
     "Markdown.Sanitizer.js",
-    "aMD.Converter.coffee",
-    "jquery.aMD.coffee"
+    "aMD.Converter.js",
+    "jquery.aMD.js"
   ],
   "license": "aLICENSE",
   "homepage": "astromzimmer.com",
