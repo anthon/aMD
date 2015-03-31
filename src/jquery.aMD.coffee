@@ -171,21 +171,38 @@
         getText()
 
       buildToolbars = ->
-        $left_toolbar = $('<div class="aMD_toolbar">
-            <div class="left">
-              <a href="#" class="bold" data-tooltip="Bold"><img src="' + options.imgPath + '/bold.gif"/>
-              </a><a href="#" class="italic" data-tooltip="Italic"><img src="' + options.imgPath + '/italic.gif"/>
-              </a><a href="#" class="linethrough" data-tooltip="Linethrough"><img src="' + options.imgPath + '/linethrough.gif"/>
-              </a><a href="#" class="quote" data-tooltip="Quote"><img src="' + options.imgPath + '/quote.gif"/>
-              </a><a href="#" class="addURL" data-tooltip="Link"><img src="' + options.imgPath + '/insert_link.gif"/>
-              </a><a href="#" class="horizontalRule" data-tooltip="Horisontal Rule"><img src="' + options.imgPath + '/horizontal_rule.gif"/>
-              </a><a href="#" class="list" data-tooltip="List"><img src="' + options.imgPath + '/list.gif"/></a>
-            </div>
-            <div class="right">
-              <a href="http://daringfireball.net/projects/markdown/basics" target="_blank" data-tooltip="Markdown Help"><img src="' + options.imgPath + '/md.gif"/>
-              </a><a href="#" class="go_fullscreen" data-tooltip="Go Fullscreen"><img src="' + options.imgPath + '/fullscreen.gif"/></a>
-            </div>
-          </div>')
+        if settings.icons
+          $left_toolbar = $('<div class="aMD_toolbar">
+              <div class="left">
+                <a href="#" class="bold" data-tooltip="Bold"><img src="' + settings.imgPath + '/bold.gif"/>
+                </a><a href="#" class="italic" data-tooltip="Italic"><img src="' + settings.imgPath + '/italic.gif"/>
+                </a><a href="#" class="linethrough" data-tooltip="Linethrough"><img src="' + settings.imgPath + '/linethrough.gif"/>
+                </a><a href="#" class="quote" data-tooltip="Quote"><img src="' + settings.imgPath + '/quote.gif"/>
+                </a><a href="#" class="addURL" data-tooltip="Link"><img src="' + settings.imgPath + '/insert_link.gif"/>
+                </a><a href="#" class="horizontalRule" data-tooltip="Horisontal Rule"><img src="' + settings.imgPath + '/horizontal_rule.gif"/>
+                </a><a href="#" class="list" data-tooltip="List"><img src="' + settings.imgPath + '/list.gif"/></a>
+              </div>
+              <div class="right">
+                <a href="http://daringfireball.net/projects/markdown/basics" target="_blank" data-tooltip="Markdown Help"><img src="' + settings.imgPath + '/md.gif"/>
+                </a><a href="#" class="go_fullscreen" data-tooltip="Go Fullscreen"><img src="' + settings.imgPath + '/fullscreen.gif"/></a>
+              </div>
+            </div>')
+        else
+          $left_toolbar = $('<div class="aMD_toolbar">
+              <div class="left">
+                <a href="#" class="bold" data-tooltip="Bold">bold
+                </a><a href="#" class="italic" data-tooltip="Italic">italic
+                </a><a href="#" class="linethrough" data-tooltip="Linethrough">linethrough
+                </a><a href="#" class="quote" data-tooltip="Quote">quote
+                </a><a href="#" class="addURL" data-tooltip="Link">link
+                </a><a href="#" class="horizontalRule" data-tooltip="Horisontal Rule">hr
+                </a><a href="#" class="list" data-tooltip="List">list</a>
+              </div>
+              <div class="right">
+                <a href="http://daringfireball.net/projects/markdown/basics" target="_blank" data-tooltip="Markdown Help">?
+                </a><a href="#" class="go_fullscreen" data-tooltip="Go Fullscreen">fullscreen
+              </div>
+            </div>')
 
         if $("#aMD_classes").length > 0
           cssURL = $("#aMD_classes").attr("href")
@@ -359,7 +376,7 @@
     defaults =
       imgPath: "../imgs/static/aMD"
       extStyles: ["../css/main.css"]
-      lite: false
+      icons: true
 
     settings = $.extend({}, defaults, options)
 
