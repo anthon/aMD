@@ -5,7 +5,7 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w \t\-]+)\))?/g, function(whole, label, required, _size, size, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w\.\? \t\-]+)\))?/g, function(whole, label, required, _size, size, _placeholder, placeholder) {
         var name, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.replace(/[ \t]/g, '-').toLowerCase();
@@ -20,7 +20,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w\.\? \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
         var name, result;
         name = label.replace(/[ \t]/g, '-').toLowerCase();
         cols = cols ? cols : 48;

@@ -6,8 +6,9 @@
         aMD.md = new Markdown.Converter()
 
         # Input fields
+        # Name* = ___(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w \t\-]+)\))?/g, (whole,label,required,_size,size,_placeholder,placeholder)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w\.\? \t\-]+)\))?/g, (whole,label,required,_size,size,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.replace(/[ \t]/g,'-').toLowerCase()
             size = if size then size else 20
@@ -20,8 +21,9 @@
             return result
 
         # Textareas
+        # Message* = [___](What can we help you with?)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w\.\? \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
             name = label.replace(/[ \t]/g,'-').toLowerCase()
             cols = if cols then cols else 48
             rows = if rows then rows else 12
@@ -98,6 +100,7 @@
             return result
 
         # Submit
+        # Submit = [submit]
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, (whole,label,type)->
             label = label.trim().replace /\t/g, ' '
