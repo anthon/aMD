@@ -5,7 +5,7 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\w\.\? \t\-]+)\))?/g, function(whole, label, required, _size, size, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\wäöåøéèáàü\.\?\! \t\-]+)\))?/g, function(whole, label, required, _size, size, _placeholder, placeholder) {
         var name, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.replace(/[ \t]/g, '-').toLowerCase();
@@ -20,7 +20,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\w\.\? \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wäöåøéèáàü\.\?\! \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
         var name, result;
         name = label.replace(/[ \t]/g, '-').toLowerCase();
         cols = cols ? cols : 48;
@@ -35,7 +35,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\w \t\-]+)+)/g, function(whole, label, required, radios, last_radio) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wäöåøéèáàü\.\?\! \t\-]+)+)/g, function(whole, label, required, radios, last_radio) {
         var checked, cleaned_radios, match, name, radio_id, radio_label, radio_regex, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.replace(/[ \t]/g, '-').toLowerCase();
@@ -58,7 +58,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\w \t\-]+)+)/g, function(whole, label, required, checkboxes, last_checkbox) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wäöåøéèáàü\.\?\! \t\-]+)+)/g, function(whole, label, required, checkboxes, last_checkbox) {
         var checkbox_id, checkbox_label, checkbox_regex, checked, cleaned_checkboxes, match, name, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.replace(/[ \t]/g, '-').toLowerCase();
