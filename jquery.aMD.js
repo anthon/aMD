@@ -195,7 +195,7 @@
           selection = window.getSelection();
           if (selection.rangeCount > 0) {
             end = el.selectionEnd;
-            position = getCaretCoordinates(el, end);
+            position = window.getCaretCoordinates(el, end);
             value = el.value;
             before = value.substring(0, end);
             after = value.substr(end);
