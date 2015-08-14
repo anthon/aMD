@@ -80,6 +80,7 @@
       $fullscreenContainer = null
       iFrame = null
       $iContents = null
+      $refSelector = null
 
       init = (s) ->
 
@@ -134,6 +135,8 @@
                 e.preventDefault()
                 prependSelection '\t'
                 return false
+
+        $textBox.on 'keyup', onKeyUp
 
       fire = ()->
         $iContents = $(iFrame).contents()
@@ -260,7 +263,11 @@
           toggleFullscreen()
           false
 
-        $textBox.before $left_toolbar
+        $textBox.focus().before $left_toolbar
+
+      buildRefSelector = ->
+        $refSelector = $ '<div id="aMD_refSelector"></div>'
+        $container.append $refSelector
 
       wrapSelection = (chars)->
         selection = $textBox.selection 'get'
@@ -289,6 +296,37 @@
             lines[i] = chars+line
         mdify lines.join('\n')
 
+      getCaret = ->
+        to_return =
+          char: ''
+          ref: ''
+          x: 0
+          y: 0
+        if window.getSelection
+          el = $textBox[0]
+          selection = window.getSelection()
+          if selection.rangeCount > 0
+            end = el.selectionEnd
+            value = el.value
+            after_array = value.split('@(')
+            after = if after_array.length > 1 then after_array[after_array.length-1] else ''
+            ref_array = after.split(')')
+            reference = if ref_array.length > 0 then ref_array[0] else after
+            position = getCaretCoordinates el, end
+            to_return =
+              char: value.slice end-1, end
+              ref: reference
+              x: position.left
+              y: position.top
+        return to_return
+
+      onKeyUp = (e)->
+        caret = getCaret()
+        if caret.ref isnt ''
+          $textBox.trigger 'amd:reference', caret
+
+
+      onMouseUp = (e)->
 
       insertAtCaret = (chars)->
         mdify chars

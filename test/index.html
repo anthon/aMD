@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title></title>
+	<script type="text/javascript" src="../bower_components/textarea-caret-position/index.js"></script>
 	<script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="../jquery.selection.js"></script>
 	<script type="text/javascript" src="../Markdown.Converter.js"></script>
@@ -10,10 +11,14 @@
 	<script type="text/javascript" src="../jquery.aMD.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('textarea').aMD({
+			$textarea = $('textarea');
+			$textarea.aMD({
 				icons: false,
 				extStyles: []
 			});
+			$textarea.on('amd:reference',function(e,reference){
+				console.log(reference);
+			})
 		});
 	</script>
 	<style type="text/css">
