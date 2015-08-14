@@ -27,9 +27,7 @@
   },
   "overrides": {
     "textarea-caret-position": {
-      "main": [
-        "index.js"
-      ]
+      "main": "index.js"
     }
   }
 }
