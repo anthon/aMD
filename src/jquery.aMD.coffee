@@ -372,26 +372,26 @@
       onKeyUp = (e)->
         if settings.refEndpoint
           caret = getCaret()
-          switch e.keyCode
-            when 38, 40
-              if $refSelector.is(':visible')
+          if $refSelector.is(':visible')
+            switch e.keyCode
+              when 38, 40
                 return false
                 break
-            when 13
-              $selected = $('li.selected',$refSelector)
-              ref = $selected.data 'ref'
-              tag = '@{'+ref+'}'
-              value = $textBox.val().replace '@{'+caret.ref+'}','@{'+caret.ref
-              value = value.replace '@{'+caret.ref, tag
-              new_caret_pos = value.lastIndexOf(tag)+tag.length
-              $textBox.val value
-              $textBox.selection 'setPos',
-                start: new_caret_pos
-                end: new_caret_pos
-              $refSelector.html('').hide()
-              getText()
-              return false
-              break
+              when 13
+                $selected = $('li.selected',$refSelector)
+                ref = $selected.data 'ref'
+                tag = '@{'+ref+'}'
+                value = $textBox.val().replace '@{'+caret.ref+'}','@{'+caret.ref
+                value = value.replace '@{'+caret.ref, tag
+                new_caret_pos = value.lastIndexOf(tag)+tag.length
+                $textBox.val value
+                $textBox.selection 'setPos',
+                  start: new_caret_pos
+                  end: new_caret_pos
+                $refSelector.html('').hide()
+                getText()
+                return false
+                break
           if caret.ref is ''
             $refSelector.html('').hide()
           else
