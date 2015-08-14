@@ -109,6 +109,13 @@
             result = '<button type="'+type+'" name="'+name+'" id="'+name+'">'+label+'</button>'
             return result
 
+        # Ref
+        # @{id-title}
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /@\{(\d+)-(.[^\}]+)\}/g, (whole,id,title)->
+            result = '<span class="ref" data-id="'+id+'">'+title+'</span>'
+            return result
+
         # Obfuscated email addresses
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->

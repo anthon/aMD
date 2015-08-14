@@ -24,6 +24,9 @@
           margin-left: 50%;
           border: none;
         }
+        .aMD_iFrame .ref {
+          border-bottom: 1px solid blue;
+        }
         .aMD_toolbar {
           position: absolute;
           left: 0;
@@ -67,6 +70,25 @@
         }
         .aMD_fullscreen_container .aMD_container {
           height: 100% !important;
+        }
+        .aMD_refSelector {
+          font-family: monospace;
+          font-weight: 100;
+          display: none;
+          position: absolute;
+        }
+        .aMD_refSelector ul {
+          list-style-type: none;
+        }
+        .aMD_refSelector ul li {
+          background: white;
+          padding: 6px;
+          color: gray;
+          box-shadow: 0 0 2px 1px rgba(0,0,0,.12);
+        }
+        .aMD_refSelector ul li.selected {
+          background: black;
+          color: white;
         }
       </style>
     ')
@@ -114,33 +136,13 @@
         $textBox.on 'change input propertychange', ->
           getText()
 
-        $textBox.on 'keydown', (e)->
-          if e.metaKey
-            switch e.keyCode
-              when 66
-                e.preventDefault()
-                wrapSelection '**'
-                return false
-              when 73
-                e.preventDefault()
-                wrapSelection '_'
-                return false
-              when 75
-                e.preventDefault()
-                addURL()
-                return false
-          else
-            switch e.keyCode
-              when 9
-                e.preventDefault()
-                prependSelection '\t'
-                return false
-
+        $textBox.on 'keydown', onKeyDown
         $textBox.on 'keyup', onKeyUp
 
       fire = ()->
         $iContents = $(iFrame).contents()
         buildToolbars()
+        buildRefSelector()
         scalePreview()
         setCSS()
 
@@ -266,8 +268,8 @@
         $textBox.focus().before $left_toolbar
 
       buildRefSelector = ->
-        $refSelector = $ '<div id="aMD_refSelector"></div>'
-        $container.append $refSelector
+        $refSelector = $ '<div class="aMD_refSelector"></div>'
+        $textBox.after $refSelector
 
       wrapSelection = (chars)->
         selection = $textBox.selection 'get'
@@ -307,24 +309,111 @@
           selection = window.getSelection()
           if selection.rangeCount > 0
             end = el.selectionEnd
-            value = el.value
-            after_array = value.split('@(')
-            after = if after_array.length > 1 then after_array[after_array.length-1] else ''
-            ref_array = after.split(')')
-            reference = if ref_array.length > 0 then ref_array[0] else after
             position = getCaretCoordinates el, end
+            value = el.value
+            before = value.substring 0, end
+            after = value.substr end
+            opening = before.match /@\{([^@\}]+)$/
+            if opening
+              before_ref = if opening then opening[1] else ''
+              ref_array = after.split /\}|@\{[^@\{]+\}/
+              reference = before_ref+ref_array[0]
+            else
+              reference = ''
             to_return =
               char: value.slice end-1, end
               ref: reference
+              pos: end
               x: position.left
               y: position.top
         return to_return
 
-      onKeyUp = (e)->
-        caret = getCaret()
-        if caret.ref isnt ''
-          $textBox.trigger 'amd:reference', caret
+      onKeyDown = (e)->
+        if e.metaKey
+          switch e.keyCode
+            when 66
+              e.preventDefault()
+              wrapSelection '**'
+              return false
+            when 73
+              e.preventDefault()
+              wrapSelection '_'
+              return false
+            when 75
+              e.preventDefault()
+              addURL()
+              return false
+        else if $refSelector.is(':visible')
+          switch e.keyCode
+            when 40
+              $selected = $('li.selected',$refSelector)
+              $next = $selected.next 'li'
+              if $next.length > 0
+                $selected.removeClass 'selected'
+                $next.addClass 'selected'
+              return false
+              break
+            when 38
+              $selected = $('li.selected',$refSelector)
+              $prev = $selected.prev 'li'
+              if $prev.length > 0
+                $selected.removeClass 'selected'
+                $prev.addClass 'selected'
+              return false
+              break
 
+        else
+          switch e.keyCode
+            when 9
+              e.preventDefault()
+              prependSelection '\t'
+              return false
+
+      onKeyUp = (e)->
+        if settings.refEndpoint
+          caret = getCaret()
+          switch e.keyCode
+            when 38, 40
+              if $refSelector.is(':visible')
+                return false
+                break
+            when 13
+              $selected = $('li.selected',$refSelector)
+              ref = $selected.data 'ref'
+              tag = '@{'+ref+'}'
+              value = $textBox.val().replace '@{'+caret.ref+'}','@{'+caret.ref
+              value = value.replace '@{'+caret.ref, tag
+              new_caret_pos = value.lastIndexOf(tag)+tag.length
+              $textBox.val value
+              $textBox.selection 'setPos',
+                start: new_caret_pos
+                end: new_caret_pos
+              $refSelector.html('').hide()
+              getText()
+              return false
+              break
+          if caret.ref is ''
+            $refSelector.html('').hide()
+          else
+            $textBox.trigger 'amd:reference', caret
+            $.ajax
+              url: settings.refEndpoint
+              method: 'GET'
+              data:
+                query: caret.ref
+              success: (response)->
+                if response.length > 0
+                  html = '<ul>'
+                  for node, index in response
+                    cls = if index is 0 then 'selected' else ''
+                    html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.title+'</li>'
+                  html += '</ul>'
+                  style =
+                    top: caret.y + 24
+                    left: caret.x
+                  $refSelector.html(html).css(style).show()
+                else
+                  $refSelector.html('').hide()
 
       onMouseUp = (e)->
 

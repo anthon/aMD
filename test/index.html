@@ -14,11 +14,9 @@
 			$textarea = $('textarea');
 			$textarea.aMD({
 				icons: false,
-				extStyles: []
+				extStyles: [],
+				refEndpoint: 'http://sdc/api/nodes'
 			});
-			$textarea.on('amd:reference',function(e,reference){
-				console.log(reference);
-			})
 		});
 	</script>
 	<style type="text/css">

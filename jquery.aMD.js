@@ -2,9 +2,9 @@
 (function($, window, undefined_) {
   return $.fn.aMD = function(options) {
     var $styles, MD, defaults, settings;
-    $styles = $('<style id="aMD_styles"> .aMD_fullscreen_container { background: #FFF; position: fixed; top: 0; left: 0; width: 100%; height: 100%; padding: 0px; z-index: 999999; } .aMD_container { border: 0px solid #AAA; border-width: 1px 1px 0 1px; } .aMD_iFrame { background-color: #FFF; width: 50%; margin-left: 50%; border: none; } .aMD_toolbar { position: absolute; left: 0; width: 50%; height: auto !important; z-index: 1; } .aMD_toolbar a { background-color: #CCC; } .aMD_toolbar a img { display: block; opacity: .4; } .aMD_toolbar a:hover img { opacity: 1; } .aMD_toolbar .left, .aMD_toolbar .right { position: absolute; } .aMD_toolbar .left { left: 0px; } .aMD_toolbar .right { right: 1px; } .aMD_container textarea { background: #F2F2F2; position: absolute; top: 0; left: 0; width: 50%; height: 100%; margin: 0; padding: 42px 12px 12px; border: 0px solid #AAA; border-right-width: 1px; font-family: Courier New, monospace; font-size: 13px; } .aMD_fullscreen_container .aMD_container { height: 100% !important; } </style>');
+    $styles = $('<style id="aMD_styles"> .aMD_fullscreen_container { background: #FFF; position: fixed; top: 0; left: 0; width: 100%; height: 100%; padding: 0px; z-index: 999999; } .aMD_container { border: 0px solid #AAA; border-width: 1px 1px 0 1px; } .aMD_iFrame { background-color: #FFF; width: 50%; margin-left: 50%; border: none; } .aMD_iFrame .ref { border-bottom: 1px solid blue; } .aMD_toolbar { position: absolute; left: 0; width: 50%; height: auto !important; z-index: 1; } .aMD_toolbar a { background-color: #CCC; } .aMD_toolbar a img { display: block; opacity: .4; } .aMD_toolbar a:hover img { opacity: 1; } .aMD_toolbar .left, .aMD_toolbar .right { position: absolute; } .aMD_toolbar .left { left: 0px; } .aMD_toolbar .right { right: 1px; } .aMD_container textarea { background: #F2F2F2; position: absolute; top: 0; left: 0; width: 50%; height: 100%; margin: 0; padding: 42px 12px 12px; border: 0px solid #AAA; border-right-width: 1px; font-family: Courier New, monospace; font-size: 13px; } .aMD_fullscreen_container .aMD_container { height: 100% !important; } .aMD_refSelector { font-family: monospace; font-weight: 100; display: none; position: absolute; } .aMD_refSelector ul { list-style-type: none; } .aMD_refSelector ul li { background: white; padding: 6px; color: gray; box-shadow: 0 0 2px 1px rgba(0,0,0,.12); } .aMD_refSelector ul li.selected { background: black; color: white; } </style>');
     MD = function($el, s) {
-      var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, fire, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, scalePreview, setCSS, setColour, toggleFullscreen, wrapSelection;
+      var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, fire, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyDown, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, scalePreview, setCSS, setColour, toggleFullscreen, wrapSelection;
       aMD_editor = this;
       $textBox = $el;
       $container = null;
@@ -42,36 +42,13 @@
         $textBox.on('change input propertychange', function() {
           return getText();
         });
-        $textBox.on('keydown', function(e) {
-          if (e.metaKey) {
-            switch (e.keyCode) {
-              case 66:
-                e.preventDefault();
-                wrapSelection('**');
-                return false;
-              case 73:
-                e.preventDefault();
-                wrapSelection('_');
-                return false;
-              case 75:
-                e.preventDefault();
-                addURL();
-                return false;
-            }
-          } else {
-            switch (e.keyCode) {
-              case 9:
-                e.preventDefault();
-                prependSelection('\t');
-                return false;
-            }
-          }
-        });
+        $textBox.on('keydown', onKeyDown);
         return $textBox.on('keyup', onKeyUp);
       };
       fire = function() {
         $iContents = $(iFrame).contents();
         buildToolbars();
+        buildRefSelector();
         scalePreview();
         setCSS();
         return getText();
@@ -167,8 +144,8 @@
         return $textBox.focus().before($left_toolbar);
       };
       buildRefSelector = function() {
-        $refSelector = $('<div id="aMD_refSelector"></div>');
-        return $container.append($refSelector);
+        $refSelector = $('<div class="aMD_refSelector"></div>');
+        return $textBox.after($refSelector);
       };
       wrapSelection = function(chars) {
         var char_count, selection;
@@ -206,7 +183,7 @@
         return mdify(lines.join('\n'));
       };
       getCaret = function() {
-        var after, after_array, el, end, position, ref_array, reference, selection, to_return, value;
+        var after, before, before_ref, el, end, opening, position, ref_array, reference, selection, to_return, value;
         to_return = {
           char: '',
           ref: '',
@@ -218,15 +195,22 @@
           selection = window.getSelection();
           if (selection.rangeCount > 0) {
             end = el.selectionEnd;
-            value = el.value;
-            after_array = value.split('@(');
-            after = after_array.length > 1 ? after_array[after_array.length - 1] : '';
-            ref_array = after.split(')');
-            reference = ref_array.length > 0 ? ref_array[0] : after;
             position = getCaretCoordinates(el, end);
+            value = el.value;
+            before = value.substring(0, end);
+            after = value.substr(end);
+            opening = before.match(/@\{([^@\}]+)$/);
+            if (opening) {
+              before_ref = opening ? opening[1] : '';
+              ref_array = after.split(/\}|@\{[^@\{]+\}/);
+              reference = before_ref + ref_array[0];
+            } else {
+              reference = '';
+            }
             to_return = {
               char: value.slice(end - 1, end),
               ref: reference,
+              pos: end,
               x: position.left,
               y: position.top
             };
@@ -234,11 +218,113 @@
         }
         return to_return;
       };
+      onKeyDown = function(e) {
+        var $next, $prev, $selected;
+        if (e.metaKey) {
+          switch (e.keyCode) {
+            case 66:
+              e.preventDefault();
+              wrapSelection('**');
+              return false;
+            case 73:
+              e.preventDefault();
+              wrapSelection('_');
+              return false;
+            case 75:
+              e.preventDefault();
+              addURL();
+              return false;
+          }
+        } else if ($refSelector.is(':visible')) {
+          switch (e.keyCode) {
+            case 40:
+              $selected = $('li.selected', $refSelector);
+              $next = $selected.next('li');
+              if ($next.length > 0) {
+                $selected.removeClass('selected');
+                $next.addClass('selected');
+              }
+              return false;
+              break;
+            case 38:
+              $selected = $('li.selected', $refSelector);
+              $prev = $selected.prev('li');
+              if ($prev.length > 0) {
+                $selected.removeClass('selected');
+                $prev.addClass('selected');
+              }
+              return false;
+              break;
+          }
+        } else {
+          switch (e.keyCode) {
+            case 9:
+              e.preventDefault();
+              prependSelection('\t');
+              return false;
+          }
+        }
+      };
       onKeyUp = function(e) {
-        var caret;
-        caret = getCaret();
-        if (caret.ref !== '') {
-          return $textBox.trigger('amd:reference', caret);
+        var $selected, caret, new_caret_pos, ref, tag, value;
+        if (settings.refEndpoint) {
+          caret = getCaret();
+          switch (e.keyCode) {
+            case 38:
+            case 40:
+              if ($refSelector.is(':visible')) {
+                return false;
+                break;
+              }
+              break;
+            case 13:
+              $selected = $('li.selected', $refSelector);
+              ref = $selected.data('ref');
+              tag = '@{' + ref + '}';
+              value = $textBox.val().replace('@{' + caret.ref + '}', '@{' + caret.ref);
+              value = value.replace('@{' + caret.ref, tag);
+              new_caret_pos = value.lastIndexOf(tag) + tag.length;
+              $textBox.val(value);
+              $textBox.selection('setPos', {
+                start: new_caret_pos,
+                end: new_caret_pos
+              });
+              $refSelector.html('').hide();
+              getText();
+              return false;
+              break;
+          }
+          if (caret.ref === '') {
+            return $refSelector.html('').hide();
+          } else {
+            $textBox.trigger('amd:reference', caret);
+            return $.ajax({
+              url: settings.refEndpoint,
+              method: 'GET',
+              data: {
+                query: caret.ref
+              },
+              success: function(response) {
+                var cls, html, index, j, len, node, style;
+                if (response.length > 0) {
+                  html = '<ul>';
+                  for (index = j = 0, len = response.length; j < len; index = ++j) {
+                    node = response[index];
+                    cls = index === 0 ? 'selected' : '';
+                    html += '<li class="' + cls + '" data-ref="' + node.id + '-' + node.title + '">' + node.title + '</li>';
+                  }
+                  html += '</ul>';
+                  style = {
+                    top: caret.y + 24,
+                    left: caret.x
+                  };
+                  return $refSelector.html(html).css(style).show();
+                } else {
+                  return $refSelector.html('').hide();
+                }
+              }
+            });
+          }
         }
       };
       onMouseUp = function(e) {};
