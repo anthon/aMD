@@ -113,7 +113,7 @@
         # @{id-title}
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /@\{(\d+)-(.[^\}]+)\}/g, (whole,id,title)->
-            result = '<span class="ref" data-id="'+id+'">'+title+'</span>'
+            result = '<a href="'+id+'" class="ref" data-id="'+id+'">'+title+'</a>'
             return result
 
         # Obfuscated email addresses

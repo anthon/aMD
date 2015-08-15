@@ -117,7 +117,7 @@
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/@\{(\d+)-(.[^\}]+)\}/g, function(whole, id, title) {
         var result;
-        result = '<span class="ref" data-id="' + id + '">' + title + '</span>';
+        result = '<a href="' + id + '" class="ref" data-id="' + id + '">' + title + '</a>';
         return result;
       });
     });
