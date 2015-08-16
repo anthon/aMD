@@ -343,6 +343,10 @@
               e.preventDefault()
               addURL()
               return false
+            when 13
+              e.preventDefault()
+              $textBox.closest('form').submit()
+              return false
         else if $refSelector.is(':visible')
           switch e.keyCode
             when 40

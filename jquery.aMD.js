@@ -234,6 +234,10 @@
               e.preventDefault();
               addURL();
               return false;
+            case 13:
+              e.preventDefault();
+              $textBox.closest('form').submit();
+              return false;
           }
         } else if ($refSelector.is(':visible')) {
           switch (e.keyCode) {
