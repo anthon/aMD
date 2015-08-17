@@ -400,7 +400,8 @@
             $refSelector.html('').hide()
           else
             $textBox.trigger 'amd:reference', caret
-            container_offs = $container.offset()
+            container_offs = $('.aMD_container').offset()
+            console.log container_offs
             container_y = container_offs.top
             container_x = container_offs.left
             $.ajax
