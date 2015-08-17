@@ -72,10 +72,10 @@
           height: 100% !important;
         }
         .aMD_refSelector {
+          display: none;
+          position: fixed;
           font-family: monospace;
           font-weight: 100;
-          display: none;
-          position: absolute;
         }
         .aMD_refSelector ul {
           list-style-type: none;
@@ -400,9 +400,9 @@
             $refSelector.html('').hide()
           else
             $textBox.trigger 'amd:reference', caret
-            textBox_pos = $textBox.position()
-            textBox_y = textBox_pos.top
-            textBox_x = textBox_pos.left
+            container_pos = $container.position()
+            container_y = container_pos.top
+            container_x = container_pos.left
             $.ajax
               url: settings.refEndpoint
               method: 'GET'
@@ -416,8 +416,8 @@
                     html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.path+'</li>'
                   html += '</ul>'
                   style =
-                    top: caret.y + textBox_y + 24
-                    left: caret.x + textBox_x
+                    top: caret.y + container_y + 24
+                    left: caret.x + container_x
                   $refSelector.html(html).css(style).show()
                 else
                   $refSelector.html('').hide()
