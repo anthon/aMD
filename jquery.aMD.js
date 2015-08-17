@@ -270,7 +270,7 @@
         }
       };
       onKeyUp = function(e) {
-        var $selected, caret, new_caret_pos, ref, tag, value;
+        var $selected, caret, new_caret_pos, ref, tag, textBox_pos, textBox_x, textBox_y, value;
         if (settings.refEndpoint) {
           caret = getCaret();
           if ($refSelector.is(':visible')) {
@@ -301,6 +301,9 @@
             return $refSelector.html('').hide();
           } else {
             $textBox.trigger('amd:reference', caret);
+            textBox_pos = $textBox.position();
+            textBox_y = textBox_pos.top;
+            textBox_x = textBox_pos.left;
             return $.ajax({
               url: settings.refEndpoint,
               method: 'GET',
@@ -318,8 +321,8 @@
                   }
                   html += '</ul>';
                   style = {
-                    top: caret.y + 24,
-                    left: caret.x
+                    top: caret.y + textBox_y + 24,
+                    left: caret.x + textBox_x
                   };
                   return $refSelector.html(html).css(style).show();
                 } else {

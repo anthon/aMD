@@ -400,6 +400,9 @@
             $refSelector.html('').hide()
           else
             $textBox.trigger 'amd:reference', caret
+            textBox_pos = $textBox.position()
+            textBox_y = textBox_pos.top
+            textBox_x = textBox_pos.left
             $.ajax
               url: settings.refEndpoint
               method: 'GET'
@@ -413,8 +416,8 @@
                     html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.path+'</li>'
                   html += '</ul>'
                   style =
-                    top: caret.y + 24
-                    left: caret.x
+                    top: caret.y + textBox_y + 24
+                    left: caret.x + textBox_x
                   $refSelector.html(html).css(style).show()
                 else
                   $refSelector.html('').hide()
