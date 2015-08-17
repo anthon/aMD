@@ -270,7 +270,7 @@
         }
       };
       onKeyUp = function(e) {
-        var $selected, caret, container_pos, container_x, container_y, new_caret_pos, ref, tag, value;
+        var $selected, caret, container_offs, container_x, container_y, new_caret_pos, ref, tag, value;
         if (settings.refEndpoint) {
           caret = getCaret();
           if ($refSelector.is(':visible')) {
@@ -301,9 +301,9 @@
             return $refSelector.html('').hide();
           } else {
             $textBox.trigger('amd:reference', caret);
-            container_pos = $container.position();
-            container_y = container_pos.top;
-            container_x = container_pos.left;
+            container_offs = $container.offset();
+            container_y = container_offs.top;
+            container_x = container_offs.left;
             return $.ajax({
               url: settings.refEndpoint,
               method: 'GET',

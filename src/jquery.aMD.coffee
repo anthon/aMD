@@ -400,9 +400,9 @@
             $refSelector.html('').hide()
           else
             $textBox.trigger 'amd:reference', caret
-            container_pos = $container.position()
-            container_y = container_pos.top
-            container_x = container_pos.left
+            container_offs = $container.offset()
+            container_y = container_offs.top
+            container_x = container_offs.left
             $.ajax
               url: settings.refEndpoint
               method: 'GET'
