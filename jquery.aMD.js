@@ -314,7 +314,7 @@
                   for (index = j = 0, len = response.length; j < len; index = ++j) {
                     node = response[index];
                     cls = index === 0 ? 'selected' : '';
-                    html += '<li class="' + cls + '" data-ref="' + node.id + '-' + node.title + '">' + node.title + '</li>';
+                    html += '<li class="' + cls + '" data-ref="' + node.id + '-' + node.title + '">' + node.path + '</li>';
                   }
                   html += '</ul>';
                   style = {

@@ -410,7 +410,7 @@
                   html = '<ul>'
                   for node, index in response
                     cls = if index is 0 then 'selected' else ''
-                    html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.title+'</li>'
+                    html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.path+'</li>'
                   html += '</ul>'
                   style =
                     top: caret.y + 24
