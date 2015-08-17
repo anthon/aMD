@@ -4,7 +4,7 @@
     var $styles, MD, defaults, settings;
     $styles = $('<style id="aMD_styles"> .aMD_fullscreen_container { background: #FFF; position: fixed; top: 0; left: 0; width: 100%; height: 100%; padding: 0px; z-index: 999999; } .aMD_container { border: 0px solid #AAA; border-width: 1px 1px 0 1px; } .aMD_iFrame { background-color: #FFF; width: 50%; margin-left: 50%; border: none; } .aMD_iFrame .ref { border-bottom: 1px solid blue; } .aMD_toolbar { position: absolute; left: 0; width: 50%; height: auto !important; z-index: 1; } .aMD_toolbar a { background-color: #CCC; } .aMD_toolbar a img { display: block; opacity: .4; } .aMD_toolbar a:hover img { opacity: 1; } .aMD_toolbar .left, .aMD_toolbar .right { position: absolute; } .aMD_toolbar .left { left: 0px; } .aMD_toolbar .right { right: 1px; } .aMD_container textarea { background: #F2F2F2; position: absolute; top: 0; left: 0; width: 50%; height: 100%; margin: 0; padding: 42px 12px 12px; border: 0px solid #AAA; border-right-width: 1px; font-family: Courier New, monospace; font-size: 13px; } .aMD_fullscreen_container .aMD_container { height: 100% !important; } .aMD_refSelector { display: none; position: fixed; font-family: monospace; font-weight: 100; } .aMD_refSelector ul { list-style-type: none; } .aMD_refSelector ul li { background: white; padding: 6px; color: gray; box-shadow: 0 0 2px 1px rgba(0,0,0,.12); } .aMD_refSelector ul li.selected { background: black; color: white; } </style>');
     MD = function($el, s) {
-      var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, fire, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyDown, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, scalePreview, setCSS, setColour, toggleFullscreen, wrapSelection;
+      var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, fire, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyDown, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, refRequest, scalePreview, setCSS, setColour, toggleFullscreen, wrapSelection;
       aMD_editor = this;
       $textBox = $el;
       $container = null;
@@ -13,6 +13,7 @@
       iFrame = null;
       $iContents = null;
       $refSelector = null;
+      refRequest = null;
       init = function(s) {
         var textBox_id;
         if ($('style#aMD_styles').length === 0) {
@@ -305,7 +306,10 @@
             console.log(container_offs);
             container_y = container_offs.top;
             container_x = container_offs.left;
-            return $.ajax({
+            if (refRequest) {
+              refRequest.abort();
+            }
+            return refRequest = $.ajax({
               url: settings.refEndpoint,
               method: 'GET',
               data: {

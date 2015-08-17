@@ -103,6 +103,7 @@
       iFrame = null
       $iContents = null
       $refSelector = null
+      refRequest = null
 
       init = (s) ->
 
@@ -404,7 +405,8 @@
             console.log container_offs
             container_y = container_offs.top
             container_x = container_offs.left
-            $.ajax
+            if refRequest then refRequest.abort()
+            refRequest = $.ajax
               url: settings.refEndpoint
               method: 'GET'
               data:
