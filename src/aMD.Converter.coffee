@@ -132,6 +132,13 @@
             result = '<a data-pml="'+hashed_email+'" data-link="'+hashed_link+'">[protected link]</a>'
             return result
 
+        # Linethrough
+        # ~linethrough~
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /~(.[^~]*)~/g, (whole,stricken)->
+            result = '<del>'+title+'</del>'
+            return result
+
         # TODO
         # Extend link with target
         # aMD.md.hooks.chain 'preSpanGamut', (text,runSpanGamut)->

@@ -235,7 +235,7 @@
           false
 
         $(".linethrough", $left_toolbar).on 'click', ->
-          wrapSelection('~~')
+          wrapSelection('~')
           false
 
         $(".quote", $left_toolbar).on 'click', ->
