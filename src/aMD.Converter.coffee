@@ -136,7 +136,7 @@
         # ~linethrough~
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /~(.[^~]*)~/g, (whole,stricken)->
-            result = '<del>'+title+'</del>'
+            result = '<del>'+stricken+'</del>'
             return result
 
         # TODO

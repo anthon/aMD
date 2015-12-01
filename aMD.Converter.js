@@ -151,7 +151,7 @@
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/~(.[^~]*)~/g, function(whole, stricken) {
         var result;
-        result = '<del>' + title + '</del>';
+        result = '<del>' + stricken + '</del>';
         return result;
       });
     });
