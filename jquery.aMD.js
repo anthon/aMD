@@ -375,7 +375,9 @@
       markup = aMD.makeHtml($textBox.val());
       $textBox.data('markup', markup);
       $markup.val(markup);
-      return $iContents.find('body').html(markup);
+      if (settings.helpers) {
+        return $iContents.find('body').html(markup);
+      }
     };
     scalePreview = function() {
       return iFrame.height = $textBox.css('height');

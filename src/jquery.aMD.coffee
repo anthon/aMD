@@ -459,7 +459,7 @@
       markup = aMD.makeHtml $textBox.val()
       $textBox.data 'markup', markup
       $markup.val markup
-      $iContents.find('body').html markup
+      if settings.helpers then $iContents.find('body').html markup
 
     scalePreview = ()->
       iFrame.height = $textBox.css('height')
