@@ -521,7 +521,7 @@
   # Freebie
   $(document).on 'keydown', 'textarea', (e)->
     $this = $(this)
-    if e.keyCode is 9
+    if !e.shiftKey and e.keyCode is 9
       e.preventDefault()
       textrange = $this.textrange('get')
       insert = '\t'

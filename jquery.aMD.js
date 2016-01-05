@@ -452,7 +452,7 @@
   return $(document).on('keydown', 'textarea', function(e) {
     var $this, insert, new_caret_pos, textrange;
     $this = $(this);
-    if (e.keyCode === 9) {
+    if (!e.shiftKey && e.keyCode === 9) {
       e.preventDefault();
       textrange = $this.textrange('get');
       insert = '\t';
