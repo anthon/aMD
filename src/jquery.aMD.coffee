@@ -97,6 +97,7 @@
       imgPath: "../imgs/static/aMD"
       extStyles: ["../css/main.css"]
       icons: true
+      helpers: true
 
     settings = $.extend({}, defaults, options)
 
@@ -115,17 +116,6 @@
       if $('style#aMD_styles').length is 0 then $('head').append($styles)
 
       textBox_id = $textBox.attr('id')
-      iFrame = document.createElement("iframe")
-      iFrame.className = 'aMD_iFrame'
-      iFrame.frameBorder = 0
-      iFrame.frameMargin = 0
-      iFrame.framePadding = 0
-      # iFrame.height = $textBox.css('height')
-      iFrame.width = '50%'
-      iFrame.id = textBox_id + "-iFrame"
-      $(iFrame).load ()->
-        fire()
-
       $markup = $('<input type="hidden" name="aMD_markup"/>')
 
       $container = $('<div class="aMD_container"></div>')
@@ -137,6 +127,19 @@
 
       $textBox.wrap $container
       $textBox.before $markup
+      
+      if settings.helpers
+        iFrame = document.createElement("iframe")
+        iFrame.className = 'aMD_iFrame'
+        iFrame.frameBorder = 0
+        iFrame.frameMargin = 0
+        iFrame.framePadding = 0
+        # iFrame.height = $textBox.css('height')
+        iFrame.width = '50%'
+        iFrame.id = textBox_id + "-iFrame"
+        $(iFrame).load ()->
+          fire()
+      
       $textBox.after iFrame
 
       $textBox.on 'change input propertychange', ->
@@ -149,6 +152,7 @@
       $iContents = $(iFrame).contents()
       buildToolbars()
       buildRefSelector()
+
       scalePreview()
       setCSS()
 

@@ -9,16 +9,6 @@
 	<script type="text/javascript" src="../Markdown.Sanitizer.js"></script>
 	<script type="text/javascript" src="../aMD.Converter.js"></script>
 	<script type="text/javascript" src="../jquery.aMD.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$textarea = $('textarea');
-			$textarea.aMD({
-				icons: false,
-				extStyles: [],
-				refEndpoint: 'http://sdc/api/nodes'
-			});
-		});
-	</script>
 	<style type="text/css">
 		* {
 			padding: 0;
@@ -44,6 +34,25 @@
 	</style>
 </head>
 <body>
-<div id="view"><textarea></textarea></div>
+	<div id="view"><textarea class="ui"></textarea><textarea class="noui"></textarea></div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$textarea = $('textarea.ui');
+			$textarea.aMD({
+				icons: false,
+				extStyles: [],
+				refEndpoint: 'http://sdc/api/nodes'
+			});
+
+			$textarea = $('textarea.noui');
+			$textarea.aMD({
+				icons: false,
+				helpers: false,
+				extStyles: [],
+				refEndpoint: 'http://sdc/api/nodes'
+			});
+		});
+	</script>
 </body>
 </html>
