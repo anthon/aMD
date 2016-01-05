@@ -15,8 +15,8 @@
           z-index: 999999;
         }
         .aMD_container {
-          border: 0px solid #AAA;
-          border-width: 1px 1px 0 1px;
+          border: 1px solid #AAA;
+          border-width: 1px;
         }
         .aMD_iFrame {
           background-color: #FFF;
