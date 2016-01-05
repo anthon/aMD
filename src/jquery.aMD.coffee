@@ -22,7 +22,8 @@
           background-color: #FFF;
           width: 50%;
           margin-left: 50%;
-          border: none;
+          border: 0px solid #AAA;
+          border-left-width: 1px;
         }
         .aMD_iFrame .ref {
           border-bottom: 1px solid blue;
@@ -59,12 +60,11 @@
           position: absolute;
           top: 0;
           left: 0;
-          width: 50%;
+          width: 100%;
           height: 100%;
           margin: 0;
           padding: 42px 12px 12px;
-          border: 0px solid #AAA;
-          border-right-width: 1px;
+          border: none;
           font-family: Courier New, monospace;
           font-size: 13px;
         }
@@ -127,7 +127,7 @@
 
       $textBox.wrap $container
       $textBox.before $markup
-      
+
       if settings.helpers
         iFrame = document.createElement("iframe")
         iFrame.className = 'aMD_iFrame'
@@ -140,7 +140,9 @@
         $(iFrame).load ()->
           fire()
       
-      $textBox.after iFrame
+        $textBox.css
+          width: '50%'
+        $textBox.after iFrame
 
       $textBox.on 'change input propertychange', ->
         getText()
