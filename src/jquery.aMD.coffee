@@ -67,6 +67,7 @@
           border: none;
           font-family: Courier New, monospace;
           font-size: 13px;
+          tab-size: 2;
         }
         .aMD_fullscreen_container .aMD_container {
           height: 100% !important;
