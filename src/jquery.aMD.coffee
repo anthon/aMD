@@ -63,7 +63,7 @@
           width: 100%;
           height: 100%;
           margin: 0;
-          padding: 42px 12px 12px;
+          padding: 12px;
           border: none;
           font-family: Courier New, monospace;
           font-size: 13px;
@@ -138,7 +138,7 @@
         iFrame.width = '50%'
         iFrame.id = textBox_id + "-iFrame"
         $(iFrame).load ()->
-          fire()
+          setupUI()
       
         $textBox.css
           width: '50%'
@@ -150,10 +150,11 @@
       $textBox.on 'keydown', onKeyDown
       $textBox.on 'keyup', onKeyUp
 
-    fire = ()->
+      buildRefSelector()
+
+    setupUI = ()->
       $iContents = $(iFrame).contents()
       buildToolbars()
-      buildRefSelector()
 
       scalePreview()
       setCSS()
@@ -277,6 +278,8 @@
         toggleFullscreen()
         false
 
+      $textBox.css
+        'padding-top': '42px'
       $textBox.focus().before $left_toolbar
 
     buildRefSelector = ->

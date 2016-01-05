@@ -2,8 +2,8 @@
 (function($, window, undefined_) {
   var MD;
   MD = function($el, options) {
-    var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $styles, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, defaults, fire, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyDown, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, refRequest, scalePreview, setCSS, setColour, settings, toggleFullscreen, wrapSelection;
-    $styles = $('<style id="aMD_styles"> .aMD_fullscreen_container { background: #FFF; position: fixed; top: 0; left: 0; width: 100%; height: 100%; padding: 0px; z-index: 999999; } .aMD_container { border: 1px solid #AAA; border-width: 1px; } .aMD_iFrame { background-color: #FFF; width: 50%; margin-left: 50%; border: 0px solid #AAA; border-left-width: 1px; } .aMD_iFrame .ref { border-bottom: 1px solid blue; } .aMD_toolbar { position: absolute; left: 0; width: 50%; height: auto !important; z-index: 1; } .aMD_toolbar a { background-color: #CCC; } .aMD_toolbar a img { display: block; opacity: .4; } .aMD_toolbar a:hover img { opacity: 1; } .aMD_toolbar .left, .aMD_toolbar .right { position: absolute; } .aMD_toolbar .left { left: 0px; } .aMD_toolbar .right { right: 1px; } .aMD_container textarea { background: #F2F2F2; position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 42px 12px 12px; border: none; font-family: Courier New, monospace; font-size: 13px; } .aMD_fullscreen_container .aMD_container { height: 100% !important; } .aMD_refSelector { display: none; position: fixed; font-family: monospace; font-weight: 100; } .aMD_refSelector ul { list-style-type: none; } .aMD_refSelector ul li { background: white; padding: 6px; color: gray; box-shadow: 0 0 2px 1px rgba(0,0,0,.12); } .aMD_refSelector ul li.selected { background: black; color: white; } </style>');
+    var $container, $fullscreenContainer, $iContents, $markup, $refSelector, $styles, $textBox, aMD_editor, addClass, addImage, addURL, buildRefSelector, buildToolbars, colourPallete, defaults, getCaret, getText, iFrame, init, insertAtCaret, mdify, onKeyDown, onKeyUp, onMouseUp, prependEveryLineInSelection, prependSelection, refRequest, scalePreview, setCSS, setColour, settings, setupUI, toggleFullscreen, wrapSelection;
+    $styles = $('<style id="aMD_styles"> .aMD_fullscreen_container { background: #FFF; position: fixed; top: 0; left: 0; width: 100%; height: 100%; padding: 0px; z-index: 999999; } .aMD_container { border: 1px solid #AAA; border-width: 1px; } .aMD_iFrame { background-color: #FFF; width: 50%; margin-left: 50%; border: 0px solid #AAA; border-left-width: 1px; } .aMD_iFrame .ref { border-bottom: 1px solid blue; } .aMD_toolbar { position: absolute; left: 0; width: 50%; height: auto !important; z-index: 1; } .aMD_toolbar a { background-color: #CCC; } .aMD_toolbar a img { display: block; opacity: .4; } .aMD_toolbar a:hover img { opacity: 1; } .aMD_toolbar .left, .aMD_toolbar .right { position: absolute; } .aMD_toolbar .left { left: 0px; } .aMD_toolbar .right { right: 1px; } .aMD_container textarea { background: #F2F2F2; position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 12px; border: none; font-family: Courier New, monospace; font-size: 13px; } .aMD_fullscreen_container .aMD_container { height: 100% !important; } .aMD_refSelector { display: none; position: fixed; font-family: monospace; font-weight: 100; } .aMD_refSelector ul { list-style-type: none; } .aMD_refSelector ul li { background: white; padding: 6px; color: gray; box-shadow: 0 0 2px 1px rgba(0,0,0,.12); } .aMD_refSelector ul li.selected { background: black; color: white; } </style>');
     defaults = {
       imgPath: "../imgs/static/aMD",
       extStyles: ["../css/main.css"],
@@ -44,7 +44,7 @@
         iFrame.width = '50%';
         iFrame.id = textBox_id + "-iFrame";
         $(iFrame).load(function() {
-          return fire();
+          return setupUI();
         });
         $textBox.css({
           width: '50%'
@@ -55,12 +55,12 @@
         return getText();
       });
       $textBox.on('keydown', onKeyDown);
-      return $textBox.on('keyup', onKeyUp);
+      $textBox.on('keyup', onKeyUp);
+      return buildRefSelector();
     };
-    fire = function() {
+    setupUI = function() {
       $iContents = $(iFrame).contents();
       buildToolbars();
-      buildRefSelector();
       scalePreview();
       setCSS();
       return getText();
@@ -152,6 +152,9 @@
       $(".go_fullscreen", $left_toolbar).on('click', function() {
         toggleFullscreen();
         return false;
+      });
+      $textBox.css({
+        'padding-top': '42px'
       });
       return $textBox.focus().before($left_toolbar);
     };
