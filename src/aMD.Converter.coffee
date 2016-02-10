@@ -8,7 +8,7 @@
         # Input fields
         # Name* = ___(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_size,size,_placeholder,placeholder)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.replace(/[ \t]/g,'-').toLowerCase()
             size = if size then size else 20
@@ -32,6 +32,19 @@
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<textarea name="'+name+'" cols="'+cols+'" rows="'+rows+'" placeholder="'+placeholder+'"></textarea>'
+            result += '</fieldset>'
+            return result
+
+        # Files
+        # File* = ^___^(image/*)
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_accept,accept)->
+            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            accept = if accept then accept else ''
+            required = if required then 'required' else ''
+            result = '<fieldset class="'+required+'">'
+            result += '<legend>'+label+'</legend>'
+            result += '<input name="'+name+'" type="file" accept="'+accept+'">'
             result += '</fieldset>'
             return result
 
