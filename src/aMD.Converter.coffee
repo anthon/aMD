@@ -10,7 +10,7 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             size = if size then size else 20
             placeholder = if placeholder then placeholder else ''
             required = if required then 'required' else ''
@@ -24,7 +24,7 @@
         # Message* = [___](What can we help you with?)
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             cols = if cols then cols else 48
             rows = if rows then rows else 12
             placeholder = if placeholder then placeholder else ''
@@ -39,7 +39,7 @@
         # File* = ^___^(image/*)
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept)->
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             accept = if accept then accept else ''
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
@@ -52,7 +52,7 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, (whole,label,required,radios,last_radio)->
             label = label.trim().replace /\t/g, ' '
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
@@ -73,7 +73,7 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, (whole,label,required,checkboxes,last_checkbox)->
             label = label.trim().replace /\t/g, ' '
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
@@ -94,7 +94,7 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, (whole,label,required,options)->
             label = label.trim().replace /\t/g, ' '
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
@@ -117,7 +117,7 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, (whole,label,type)->
             label = label.trim().replace /\t/g, ' '
-            name = label.replace(/[ \t]/g,'-').toLowerCase()
+            name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             type = type.trim().toLowerCase()
             result = '<button type="'+type+'" name="'+name+'" id="'+name+'">'+label+'</button>'
             return result

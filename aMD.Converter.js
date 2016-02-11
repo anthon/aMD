@@ -8,7 +8,7 @@
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _placeholder, placeholder) {
         var name, result, size;
         label = label.trim().replace(/\t/g, ' ');
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         size = size ? size : 20;
         placeholder = placeholder ? placeholder : '';
         required = required ? 'required' : '';
@@ -22,7 +22,7 @@
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
         var name, result;
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         cols = cols ? cols : 48;
         rows = rows ? rows : 12;
         placeholder = placeholder ? placeholder : '';
@@ -37,7 +37,7 @@
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept) {
         var name, result;
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         accept = accept ? accept : '';
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
@@ -51,7 +51,7 @@
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, function(whole, label, required, radios, last_radio) {
         var checked, cleaned_radios, match, name, radio_id, radio_label, radio_regex, result;
         label = label.trim().replace(/\t/g, ' ');
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
@@ -74,7 +74,7 @@
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, function(whole, label, required, checkboxes, last_checkbox) {
         var checkbox_id, checkbox_label, checkbox_regex, checked, cleaned_checkboxes, match, name, result;
         label = label.trim().replace(/\t/g, ' ');
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
@@ -97,7 +97,7 @@
       return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, function(whole, label, required, options) {
         var cleaned_options, match, name, option_label, option_regex, raw_value, result, selected, value;
         label = label.trim().replace(/\t/g, ' ');
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
@@ -121,7 +121,7 @@
       return text.replace(/(\w[\w \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, function(whole, label, type) {
         var name, result;
         label = label.trim().replace(/\t/g, ' ');
-        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         type = type.trim().toLowerCase();
         result = '<button type="' + type + '" name="' + name + '" id="' + name + '">' + label + '</button>';
         return result;
