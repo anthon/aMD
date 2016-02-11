@@ -5,8 +5,8 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _size, size, _placeholder, placeholder) {
-        var name, result;
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _placeholder, placeholder) {
+        var name, result, size;
         label = label.trim().replace(/\t/g, ' ');
         name = label.replace(/[ \t]/g, '-').toLowerCase();
         size = size ? size : 20;
@@ -30,6 +30,19 @@
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
         result += '<textarea name="' + name + '" cols="' + cols + '" rows="' + rows + '" placeholder="' + placeholder + '"></textarea>';
+        result += '</fieldset>';
+        return result;
+      });
+    });
+    aMD.md.hooks.chain('preConversion', function(text) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept) {
+        var name, result;
+        name = label.replace(/[ \t]/g, '-').toLowerCase();
+        accept = accept ? accept : '';
+        required = required ? 'required' : '';
+        result = '<fieldset class="' + required + '">';
+        result += '<legend>' + label + '</legend>';
+        result += '<input name="' + name + '" type="file" accept="' + accept + '">';
         result += '</fieldset>';
         return result;
       });

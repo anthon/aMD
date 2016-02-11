@@ -38,7 +38,7 @@
         # Files
         # File* = ^___^(image/*)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, (whole,label,required,_accept,accept)->
+          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept)->
             name = label.replace(/[ \t]/g,'-').toLowerCase()
             accept = if accept then accept else ''
             required = if required then 'required' else ''
