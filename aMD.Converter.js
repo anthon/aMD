@@ -35,13 +35,14 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _size, size, _accept, accept) {
         var name, result;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         accept = accept ? accept : '';
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
+        result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + (size * 1024 * 1024) + '">';
         result += '<input name="' + name + '" type="file" accept="' + accept + '">';
         result += '</fieldset>';
         return result;
