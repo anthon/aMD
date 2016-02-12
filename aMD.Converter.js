@@ -5,7 +5,7 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _placeholder, placeholder) {
         var name, result, size;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
@@ -20,7 +20,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
         var name, result;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         cols = cols ? cols : 48;
@@ -35,7 +35,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept) {
         var name, result;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         accept = accept ? accept : '';
@@ -48,7 +48,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, function(whole, label, required, radios, last_radio) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, function(whole, label, required, radios, last_radio) {
         var checked, cleaned_radios, match, name, radio_id, radio_label, radio_regex, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
@@ -71,7 +71,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.\?\! \t\-]+)+)/g, function(whole, label, required, checkboxes, last_checkbox) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, function(whole, label, required, checkboxes, last_checkbox) {
         var checkbox_id, checkbox_label, checkbox_regex, checked, cleaned_checkboxes, match, name, result;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
