@@ -40,13 +40,14 @@
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept,_size,size,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
+            placeholder = if placeholder then placeholder else ''
             accept = if accept then accept else ''
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             if size
                 result += '<input name="MAX_FILE_SIZE" type="hidden" value="'+(parseInt(size)*1024*1024)+'">'
-            result += '<input name="'+name+'" type="file" accept="'+accept+'">'
+            result += '<input name="'+name+'" type="file" accept="'+accept+'" placeholder="'+placeholder+'">'
             result += '</fieldset>'
             return result
 
