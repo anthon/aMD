@@ -42,7 +42,7 @@
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
-        result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + (size * 1024 * 1024) + '">';
+        result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + (parseInt(size) * 1024 * 1024) + '">';
         result += '<input name="' + name + '" type="file" accept="' + accept + '">';
         result += '</fieldset>';
         return result;
