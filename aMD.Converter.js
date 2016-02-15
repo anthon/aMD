@@ -35,7 +35,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^___\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _size, size, _accept, accept) {
+      return text.replace(/(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept, _size, size, _placeholder, placeholder) {
         var name, result;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         accept = accept ? accept : '';
