@@ -8,7 +8,7 @@
         # Input fields
         # Name* = ___(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             size = if size then size else 20
@@ -23,7 +23,7 @@
         # Textareas
         # Message* = [___](What can we help you with?)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             cols = if cols then cols else 48
             rows = if rows then rows else 12
@@ -38,7 +38,7 @@
         # Files
         # File* = ^___^(image/*)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept,_size,size,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept,_size,size,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             placeholder = if placeholder then placeholder else ''
             accept = if accept then accept else ''
@@ -53,7 +53,7 @@
 
         # Radio buttons
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, (whole,label,required,radios,last_radio)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]*=[ \t]*((\(x?\)[ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, (whole,label,required,radios,last_radio)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
@@ -74,7 +74,7 @@
 
         # Checkboxes
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, (whole,label,required,checkboxes,last_checkbox)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)+)/g, (whole,label,required,checkboxes,last_checkbox)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
@@ -95,7 +95,7 @@
 
         # Select
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, (whole,label,required,options)->
+          return text.replace /(\w[\w\/ \t\-]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, (whole,label,required,options)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
@@ -118,7 +118,7 @@
         # Submit
         # Submit = [submit]
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, (whole,label,type)->
+          return text.replace /(\w[\w\/ \t\-]*)[ \t]*=[ \t]*\[(\w+)\]/g, (whole,label,type)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             type = type.trim().toLowerCase()
