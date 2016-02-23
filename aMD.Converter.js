@@ -99,8 +99,10 @@
           checkbox_label = match[2].trim().replace(/\t/g, ' ');
           checkbox_id = checkbox_label.replace(/[ \t]/g, '-').toLowerCase();
           checked = match[1] === 'x' ? 'checked="checked"' : '';
+          result += '<div>';
           result += '<input id="' + checkbox_id + '" type="checkbox" name="' + name + '" ' + checked + ' />';
           result += '<label for="' + checkbox_id + '">' + checkbox_label + '</label>';
+          result += '</div>';
           match = checkbox_regex.exec(cleaned_checkboxes);
         }
         result += '</fieldset>';
