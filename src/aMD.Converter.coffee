@@ -8,7 +8,7 @@
         # Input fields
         # Name* = ___(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]___(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_maxlength,maxlength,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             size = if size then size else 20
@@ -16,14 +16,16 @@
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
-            result += '<input type="text" name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
+            result += '<input type="text"'
+            if maxlength then result += ' maxlength="'+maxlength+'"'
+            result += ' name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
             result += '</fieldset>'
             return result
 
         # Textareas
         # Message* = [___](What can we help you with?)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_size,cols,rows,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\[___\](\[((\d+):)?(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, (whole,label,required,_size,_maxlength,maxlength,cols,rows,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             cols = if cols then cols else 48
             rows = if rows then rows else 12
@@ -31,7 +33,11 @@
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
-            result += '<textarea name="'+name+'" cols="'+cols+'" rows="'+rows+'" placeholder="'+placeholder+'"></textarea>'
+            result += '<textarea name="'+name+'"'
+            if maxlength then result += ' maxlength="'+maxlength+'"'
+            result += ' cols="'+cols+'"'
+            result += ' rows="'+rows+'"'
+            result += ' placeholder="'+placeholder+'"></textarea>'
             result += '</fieldset>'
             return result
 

@@ -5,7 +5,7 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]___(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _placeholder, placeholder) {
+      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]___(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _maxlength, maxlength, _placeholder, placeholder) {
         var name, result, size;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
@@ -14,13 +14,17 @@
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
-        result += '<input type="text" name="' + name + '" size="' + size + '" placeholder="' + placeholder + '" />';
+        result += '<input type="text"';
+        if (maxlength) {
+          result += ' maxlength="' + maxlength + '"';
+        }
+        result += ' name="' + name + '" size="' + size + '" placeholder="' + placeholder + '" />';
         result += '</fieldset>';
         return result;
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\[___\](\[(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _size, cols, rows, _placeholder, placeholder) {
+      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\[___\](\[((\d+):)?(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\! \t\-]+)\))?/g, function(whole, label, required, _size, _maxlength, maxlength, cols, rows, _placeholder, placeholder) {
         var name, result;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         cols = cols ? cols : 48;
@@ -29,7 +33,13 @@
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
-        result += '<textarea name="' + name + '" cols="' + cols + '" rows="' + rows + '" placeholder="' + placeholder + '"></textarea>';
+        result += '<textarea name="' + name + '"';
+        if (maxlength) {
+          result += ' maxlength="' + maxlength + '"';
+        }
+        result += ' cols="' + cols + '"';
+        result += ' rows="' + rows + '"';
+        result += ' placeholder="' + placeholder + '"></textarea>';
         result += '</fieldset>';
         return result;
       });
