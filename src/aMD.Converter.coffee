@@ -80,14 +80,14 @@
 
         # Checkboxes
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?+)/g, (whole,label,required,checkboxes,last_checkbox)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]*((\[x?\]([ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?)+)/g, (whole,label,required,checkboxes,last_checkbox)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             cleaned_checkboxes = checkboxes.trim().replace /\t/g, ' '
-            checkbox_regex = /\[(x?)\][ \t]?([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)/g
+            checkbox_regex = /\[(x?)\]([ \t]?([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?)/g
             match = checkbox_regex.exec cleaned_checkboxes
             while match
               checkbox_label = match[2].trim().replace /\t/g, ' '
