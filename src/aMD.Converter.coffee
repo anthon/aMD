@@ -80,7 +80,7 @@
 
         # Checkboxes
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)+)/g, (whole,label,required,checkboxes,last_checkbox)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]*((\[x?\][ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?+)/g, (whole,label,required,checkboxes,last_checkbox)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
