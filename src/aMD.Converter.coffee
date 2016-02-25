@@ -17,6 +17,7 @@
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<input type="text"'
+            if required then result += ' required="'+required+'"'
             if maxlength then result += ' maxlength="'+maxlength+'"'
             result += ' name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
             result += '</fieldset>'
@@ -34,6 +35,7 @@
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<textarea name="'+name+'"'
+            if required then result += ' required="'+required+'"'
             if maxlength then result += ' maxlength="'+maxlength+'"'
             result += ' cols="'+cols+'"'
             result += ' rows="'+rows+'"'
@@ -53,7 +55,9 @@
             result += '<legend>'+label+'</legend>'
             if size
                 result += '<input name="MAX_FILE_SIZE" type="hidden" value="'+(parseInt(size)*1024*1024)+'">'
-            result += '<input name="'+name+'" type="file" accept="'+accept+'" placeholder="'+placeholder+'">'
+            result += '<input'
+            if required then result += ' required="'+required+'"'
+            result += ' name="'+name+'" type="file" accept="'+accept+'" placeholder="'+placeholder+'">'
             result += '</fieldset>'
             return result
 

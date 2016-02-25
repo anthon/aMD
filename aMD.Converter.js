@@ -15,6 +15,9 @@
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
         result += '<input type="text"';
+        if (required) {
+          result += ' required="' + required + '"';
+        }
         if (maxlength) {
           result += ' maxlength="' + maxlength + '"';
         }
@@ -34,6 +37,9 @@
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
         result += '<textarea name="' + name + '"';
+        if (required) {
+          result += ' required="' + required + '"';
+        }
         if (maxlength) {
           result += ' maxlength="' + maxlength + '"';
         }
@@ -56,7 +62,11 @@
         if (size) {
           result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + (parseInt(size) * 1024 * 1024) + '">';
         }
-        result += '<input name="' + name + '" type="file" accept="' + accept + '" placeholder="' + placeholder + '">';
+        result += '<input';
+        if (required) {
+          result += ' required="' + required + '"';
+        }
+        result += ' name="' + name + '" type="file" accept="' + accept + '" placeholder="' + placeholder + '">';
         result += '</fieldset>';
         return result;
       });
