@@ -8,10 +8,10 @@
         # Input fields
         # Name* = _type_(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([^_\w]+|_)?_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,type,_maxlength,maxlength,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([^_\w]+)_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,type,_maxlength,maxlength,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
-            type = if type then type else 'text'
+            type = if type and type isnt '_' then type else 'text'
             size = if size then size else 20
             placeholder = if placeholder then placeholder else ''
             required = if required then 'required' else ''
