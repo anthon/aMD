@@ -6,18 +6,31 @@
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([\w]+)_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, function(whole, label, required, type, _maxlength, maxlength, _placeholder, placeholder) {
-        var name, result, size;
+        var name, pattern, result, size;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
-        type = type && type !== '_' ? type : 'text';
         size = size ? size : 20;
         placeholder = placeholder ? placeholder : '';
+        type = type && type !== '_' ? type : 'text';
+        pattern = (function() {
+          switch (type) {
+            case 'url':
+              return '(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*\/?';
+            case 'email':
+              return '([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})';
+            default:
+              return false;
+          }
+        })();
         required = required ? 'required' : '';
         result = '<fieldset class="' + required + '">';
         result += '<legend>' + label + '</legend>';
         result += '<input';
         if (type) {
           result += ' type="' + type + '"';
+        }
+        if (pattern) {
+          result += ' pattern="' + pattern + '"';
         }
         if (required) {
           result += ' required="' + required + '"';

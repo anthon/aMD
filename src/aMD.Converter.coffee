@@ -11,14 +11,22 @@
           return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([\w]+)_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,type,_maxlength,maxlength,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
-            type = if type and type isnt '_' then type else 'text'
             size = if size then size else 20
             placeholder = if placeholder then placeholder else ''
+            type = if type and type isnt '_' then type else 'text'
+            pattern = switch type
+                        when 'url'
+                            '(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*\/?'
+                        when 'email'
+                            '([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})'
+                        else
+                            false
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<input'
             if type then result += ' type="'+type+'"'
+            if pattern then result += ' pattern="'+pattern+'"'
             if required then result += ' required="'+required+'"'
             if maxlength then result += ' maxlength="'+maxlength+'"'
             result += ' name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
