@@ -6,17 +6,19 @@
         aMD.md = new Markdown.Converter()
 
         # Input fields
-        # Name* = ___(Please enter your name)
+        # Name* = _type_(Please enter your name)
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]___(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,_maxlength,maxlength,_placeholder,placeholder)->
+          return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([_\w]+)?_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,type,_maxlength,maxlength,_placeholder,placeholder)->
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
+            type = if type then type else 'text'
             size = if size then size else 20
             placeholder = if placeholder then placeholder else ''
             required = if required then 'required' else ''
             result = '<fieldset class="'+required+'">'
             result += '<legend>'+label+'</legend>'
-            result += '<input type="text"'
+            result += '<input'
+            if type then result += ' type="'+type+'"'
             if required then result += ' required="'+required+'"'
             if maxlength then result += ' maxlength="'+maxlength+'"'
             result += ' name="'+name+'" size="'+size+'" placeholder="'+placeholder+'" />'
@@ -24,7 +26,7 @@
             return result
 
         # Textareas
-        # Message* = [___](What can we help you with?)
+        # Message* = [___][MAX_SIZE:COLSxROWS](What can we help you with?)
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\[___\](\[((\d+):)?(\d+)?[x]?(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, (whole,label,required,_size,_maxlength,maxlength,cols,rows,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
@@ -44,7 +46,7 @@
             return result
 
         # Files
-        # File* = ^___^(image/*)
+        # File* = ^___^[50](image/*)
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-\/\*]+)\))?/g, (whole,label,required,_accept,accept,_size,size,_placeholder,placeholder)->
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
@@ -83,6 +85,7 @@
             return result
 
         # Checkboxes
+        # Legend = [] Label [x] Label
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]*((\[x?\]([ \t]*[\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?)+)/g, (whole,label,required,checkboxes,last_checkbox)->
             label = label.trim().replace /\t/g, ' '
