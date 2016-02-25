@@ -5,7 +5,7 @@
   init = function() {
     aMD.md = new Markdown.Converter();
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([_\w]+)?_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, function(whole, label, required, type, _maxlength, maxlength, _placeholder, placeholder) {
+      return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]_([^_\w]+|_)?_(\[(\d+)?\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)\))?/g, function(whole, label, required, type, _maxlength, maxlength, _placeholder, placeholder) {
         var name, result, size;
         label = label.trim().replace(/\t/g, ' ');
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
