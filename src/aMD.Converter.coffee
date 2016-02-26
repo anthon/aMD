@@ -22,7 +22,7 @@
                         else
                             false
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="text '+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<input'
             if type then result += ' type="'+type+'"'
@@ -42,7 +42,7 @@
             rows = if rows then rows else 12
             placeholder = if placeholder then placeholder else ''
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="textarea '+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<textarea name="'+name+'"'
             if required then result += ' required="'+required+'"'
@@ -61,7 +61,7 @@
             placeholder = if placeholder then placeholder else ''
             accept = if accept then accept else ''
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="file input '+required+'">'
             result += '<legend>'+label+'</legend>'
             if size
                 result += '<input name="MAX_FILE_SIZE" type="hidden" value="'+(parseInt(size)*1024*1024)+'">'
@@ -77,7 +77,7 @@
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="radio '+required+'">'
             result += '<legend>'+label+'</legend>'
             cleaned_radios = radios.trim().replace /\t/g, ' '
             radio_regex = /\((x?)\)[ \t]?([\w \t\-]+)/g
@@ -99,7 +99,7 @@
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="checkbox '+required+'">'
             result += '<legend>'+label+'</legend>'
             cleaned_checkboxes = checkboxes.trim().replace /\t/g, ' '
             checkbox_regex = /\[(x?)\]([ \t]?([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-]+)?)/g
@@ -122,7 +122,7 @@
             label = label.trim().replace /\t/g, ' '
             name = label.trim().replace(/[ \t]/g,'-').toLowerCase()
             required = if required then 'required' else ''
-            result = '<fieldset class="'+required+'">'
+            result = '<fieldset class="select '+required+'">'
             result += '<legend>'+label+'</legend>'
             result += '<select name="'+name+'">'
             cleaned_options = options.trim().replace /\t/g, ' '
