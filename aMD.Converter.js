@@ -178,7 +178,7 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4}))\)/g, function(whole, link, email, name, domain, topdomain) {
+      return text.replace(/\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, function(whole, link, email, name, domain, topdomain) {
         var char, hashed_email, hashed_link, i, j, k, l, len, len1, ref, ref1, result;
         hashed_email = '';
         hashed_link = '';

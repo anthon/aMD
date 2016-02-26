@@ -157,7 +157,7 @@
 
         # Obfuscated email addresses
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
+          return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
             hashed_email = ''
             hashed_link = ''
             l = email.length
