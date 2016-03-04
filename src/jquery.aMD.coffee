@@ -239,43 +239,53 @@
           selector += "</select>"
           toolbar.append selector
 
-      $(".bold", $left_toolbar).on 'click', ->
+      $(".bold", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         wrapSelection('**')
         false
 
-      $(".italic", $left_toolbar).on 'click', ->
+      $(".italic", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         wrapSelection('_')
         false
 
-      $(".linethrough", $left_toolbar).on 'click', ->
+      $(".linethrough", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         wrapSelection('~')
         false
 
-      $(".quote", $left_toolbar).on 'click', ->
+      $(".quote", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         prependEveryLineInSelection('> ')
         false
 
-      $(".addURL", $left_toolbar).on 'click', ->
+      $(".addURL", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         addURL()
         false
         
-      $(".biggerText", $left_toolbar).on 'click', ->
+      $(".biggerText", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         applyToText "increasefontsize"
         false
 
-      $(".smallerText", $left_toolbar).on 'click', ->
+      $(".smallerText", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         applyToText "decreasefontsize"
         false
 
-      $(".horizontalRule", $left_toolbar).on 'click', ->
+      $(".horizontalRule", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         prependSelection '- - -'
         false
 
-      $(".list", $left_toolbar).on 'click', ->
+      $(".list", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         prependEveryLineInSelection '- '
         false
 
-      $(".go_fullscreen", $left_toolbar).on 'click', ->
+      $(".go_fullscreen", $left_toolbar).on 'click', (e)->
+        e.preventDefault()
         toggleFullscreen()
         false
 

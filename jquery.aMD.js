@@ -113,43 +113,53 @@
           return toolbar.append(selector);
         });
       }
-      $(".bold", $left_toolbar).on('click', function() {
+      $(".bold", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         wrapSelection('**');
         return false;
       });
-      $(".italic", $left_toolbar).on('click', function() {
+      $(".italic", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         wrapSelection('_');
         return false;
       });
-      $(".linethrough", $left_toolbar).on('click', function() {
+      $(".linethrough", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         wrapSelection('~');
         return false;
       });
-      $(".quote", $left_toolbar).on('click', function() {
+      $(".quote", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         prependEveryLineInSelection('> ');
         return false;
       });
-      $(".addURL", $left_toolbar).on('click', function() {
+      $(".addURL", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         addURL();
         return false;
       });
-      $(".biggerText", $left_toolbar).on('click', function() {
+      $(".biggerText", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         applyToText("increasefontsize");
         return false;
       });
-      $(".smallerText", $left_toolbar).on('click', function() {
+      $(".smallerText", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         applyToText("decreasefontsize");
         return false;
       });
-      $(".horizontalRule", $left_toolbar).on('click', function() {
+      $(".horizontalRule", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         prependSelection('- - -');
         return false;
       });
-      $(".list", $left_toolbar).on('click', function() {
+      $(".list", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         prependEveryLineInSelection('- ');
         return false;
       });
-      $(".go_fullscreen", $left_toolbar).on('click', function() {
+      $(".go_fullscreen", $left_toolbar).on('click', function(e) {
+        e.preventDefault();
         toggleFullscreen();
         return false;
       });
