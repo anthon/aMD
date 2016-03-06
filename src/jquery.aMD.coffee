@@ -316,7 +316,7 @@
     prependEveryLineInSelection = (chars)->
       selection = $textBox.textrange('get')
       char_count = chars.length
-      lines = selection.split '\n'
+      lines = selection.text.split '\n'
       for line, i in lines
         if line.substr(0,char_count) is chars
           lines[i] = line.substr(char_count,selection.length - char_count)

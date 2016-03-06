@@ -196,7 +196,7 @@
       var char_count, i, j, len, line, lines, selection;
       selection = $textBox.textrange('get');
       char_count = chars.length;
-      lines = selection.split('\n');
+      lines = selection.text.split('\n');
       for (i = j = 0, len = lines.length; j < len; i = ++j) {
         line = lines[i];
         if (line.substr(0, char_count) === chars) {
