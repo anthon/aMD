@@ -127,7 +127,7 @@
           checkbox_id = checkbox_label.replace(/[ \t]/g, '-').toLowerCase();
           checked = match[1] === 'x' ? 'checked="checked"' : '';
           result += '<div>';
-          result += '<input id="' + checkbox_id + '_hidden" type="hidden" name="' + name + '" value="0" />';
+          result += '<input id="' + checkbox_id + '_hidden" type="hidden" name="' + name + '" value="" />';
           result += '<input id="' + checkbox_id + '" type="checkbox" name="' + name + '" ' + checked + ' />';
           result += '<label for="' + checkbox_id + '">' + checkbox_label + '</label>';
           result += '</div>';
