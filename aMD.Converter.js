@@ -69,7 +69,7 @@
     });
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]*=[ \t]\^(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-\/\*]+))?\^(\[(\d+)\])?(\(([\wa-zA-Z\u00E0-\u017F\.,'\?\!\/ \t\-\/\*]+)\))?/g, function(whole, label, required, _accept, accept, _size, size, _placeholder, placeholder) {
-        var name, result, size_mb;
+        var name, result, size_bytes;
         name = label.trim().replace(/[ \t]/g, '-').toLowerCase();
         placeholder = placeholder ? placeholder : '';
         accept = accept ? accept : '';
@@ -77,17 +77,17 @@
         result = '<fieldset class="file input ' + required + '">';
         result += '<legend>' + label + '</legend>';
         if (size) {
-          size_mb = parseInt(size) * 1024 * 1024;
+          size_bytes = parseInt(size) * 1024 * 1024;
         }
-        if (size_mb) {
-          result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + size_mb + '">';
+        if (size_bytes) {
+          result += '<input name="MAX_FILE_SIZE" type="hidden" value="' + size_bytes + '">';
         }
         result += '<input';
         if (required) {
           result += ' required="' + required + '"';
         }
-        if (size_mb) {
-          result += ' data-max-size="' + size_mb + '"';
+        if (size) {
+          result += ' data-max-size="' + size + '"';
         }
         result += ' name="' + name + '" type="file" accept="' + accept + '" placeholder="' + placeholder + '">';
         result += '</fieldset>';
