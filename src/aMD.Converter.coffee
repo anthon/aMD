@@ -63,10 +63,12 @@
             required = if required then 'required' else ''
             result = '<fieldset class="file input '+required+'">'
             result += '<legend>'+label+'</legend>'
-            if size
-                result += '<input name="MAX_FILE_SIZE" type="hidden" value="'+(parseInt(size)*1024*1024)+'">'
+            if size then size_mb = parseInt(size)*1024*1024
+            if size_mb
+                result += '<input name="MAX_FILE_SIZE" type="hidden" value="'+size_mb+'">'
             result += '<input'
             if required then result += ' required="'+required+'"'
+            if size_mb then result += ' data-max-size="'+size_mb+'"'
             result += ' name="'+name+'" type="file" accept="'+accept+'" placeholder="'+placeholder+'">'
             result += '</fieldset>'
             return result
