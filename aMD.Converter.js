@@ -185,9 +185,9 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/^\[\.(.)+\](.)+/gm, function(whole, classname, content) {
+      return text.replace(/^\[\.(.+)\](.)+/gm, function(whole, classname, content) {
         var result;
-        result = '<div class="' + classname + '"' + content + '</div>';
+        result = '<div class="' + classname + '">' + content + '</div>';
         return result;
       });
     });
