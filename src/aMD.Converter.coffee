@@ -158,6 +158,13 @@
             result = '<a href="'+id+'" class="ref" data-id="'+id+'">'+title+'</a>'
             return result
 
+        # Apply class
+        # [.classname] ...
+        aMD.md.hooks.chain 'preConversion', (text)->
+          return text.replace /^\[\.(.)+\](.)+/gm, (whole,classname,content)->
+            result = '<div class="'+classname+'"'+content+'</div>'
+            return result
+
         # Obfuscated email addresses
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
