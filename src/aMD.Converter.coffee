@@ -162,7 +162,7 @@
         # [.classname] ...
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /^\[\.(.+)\](.+)/gm, (whole,classname,content)->
-            result = '<div class="'+classname+'">'+content+'</div>'
+            result = '<p class="'+classname+'">'+content+'</p>'
             return result
 
         # Obfuscated email addresses

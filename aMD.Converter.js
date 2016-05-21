@@ -187,7 +187,7 @@
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/^\[\.(.+)\](.+)/gm, function(whole, classname, content) {
         var result;
-        result = '<div class="' + classname + '">' + content + '</div>';
+        result = '<p class="' + classname + '">' + content + '</p>';
         return result;
       });
     });
