@@ -178,8 +178,9 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/@\{(\d+)(-(.[^\}]+))?\}/g, function(whole, has_id, id, title) {
+      return text.replace(/@\{(\d+)(-(.[^\}]+))?\}/g, function(whole, id, has_title, title) {
         var result;
+        title = has_title ? title : id;
         result = '<a href="' + id + '" class="ref" data-id="' + id + '">' + title + '</a>';
         return result;
       });

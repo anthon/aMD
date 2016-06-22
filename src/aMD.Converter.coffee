@@ -154,7 +154,8 @@
         # Ref
         # @{id-title}
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /@\{(\d+)(-(.[^\}]+))?\}/g, (whole,has_id,id,title)->
+          return text.replace /@\{(\d+)(-(.[^\}]+))?\}/g, (whole,id,has_title,title)->
+            title = if has_title then title else id
             result = '<a href="'+id+'" class="ref" data-id="'+id+'">'+title+'</a>'
             return result
 
