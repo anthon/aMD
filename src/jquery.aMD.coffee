@@ -99,6 +99,7 @@
       extStyles: ["../css/main.css"]
       icons: true
       helpers: true
+      refEndpoint: false
 
     settings = $.extend({}, defaults, options)
 

@@ -25,5 +25,10 @@
     "jquery": "~2.1.3",
     "textarea-caret-position": "~3.0.0",
     "jquery-textrange": "https://github.com/dwieeb/jquery-textrange.git"
+  },
+  "overrides": {
+    "textarea-caret-position": {
+      "main": ["./index.js"]
+    }
   }
 }
