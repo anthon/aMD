@@ -4,6 +4,7 @@
 
     init = ()->
         aMD.md = new Markdown.Converter()
+        # aMD.md = new showdown.Converter()
 
         # Input fields
         # Name* = _type_(Please enter your name)
@@ -169,17 +170,29 @@
         # Obfuscated email addresses
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
+            email_array = email.split('').reverse()
+            email = email_array.join('')
+            link_array = link.split('').reverse()
+            link = link_array.join('')
             hashed_email = ''
-            hashed_link = ''
-            l = email.length
-            for char,i in email.split('')
+            l = email_array.length
+            for char,i in email_array
               hashed_email += email.charCodeAt i
               if i < l-1 then hashed_email += ','
-            l = link.length
-            for char,i in link.split('')
-              hashed_link += link.charCodeAt i
-              if i < l-1 then hashed_link += ','
-            result = '<a data-pml="'+hashed_email+'" data-link="'+hashed_link+'">[protected link]</a>'
+            result = '<a href=""
+                        style="unicode-bidi:bidi-override;direction:rtl"
+                        data-pml="'+hashed_email+'"
+                        onclick="(function(e) {
+                                    console.log(e);
+                                    _this = e.target;
+                                    _array = _this.dataset.pml.split(\',\');
+                                    var tluser = _array.reduce(function(str,char) {
+                                        str += String.fromCharCode(parseInt(char));
+                                        return str;
+                                    },\'\');
+                                    var result = tluser.split(\'\').reverse().join(\'\');
+                                    _this.setAttribute(\'href\',\'mailto:\'+result);
+                                })(event)">'+link+'</a>'
             return result
 
         # Linethrough

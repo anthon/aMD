@@ -194,28 +194,21 @@
     });
     aMD.md.hooks.chain('preConversion', function(text) {
       return text.replace(/\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, function(whole, link, email, name, domain, topdomain) {
-        var char, hashed_email, hashed_link, i, j, k, l, len, len1, ref, ref1, result;
+        var char, email_array, hashed_email, i, j, l, len, link_array, result;
+        email_array = email.split('').reverse();
+        email = email_array.join('');
+        link_array = link.split('').reverse();
+        link = link_array.join('');
         hashed_email = '';
-        hashed_link = '';
-        l = email.length;
-        ref = email.split('');
-        for (i = j = 0, len = ref.length; j < len; i = ++j) {
-          char = ref[i];
+        l = email_array.length;
+        for (i = j = 0, len = email_array.length; j < len; i = ++j) {
+          char = email_array[i];
           hashed_email += email.charCodeAt(i);
           if (i < l - 1) {
             hashed_email += ',';
           }
         }
-        l = link.length;
-        ref1 = link.split('');
-        for (i = k = 0, len1 = ref1.length; k < len1; i = ++k) {
-          char = ref1[i];
-          hashed_link += link.charCodeAt(i);
-          if (i < l - 1) {
-            hashed_link += ',';
-          }
-        }
-        result = '<a data-pml="' + hashed_email + '" data-link="' + hashed_link + '">[protected link]</a>';
+        result = '<a href="" style="unicode-bidi:bidi-override;direction:rtl" data-pml="' + hashed_email + '" onclick="(function(e) { console.log(e); _this = e.target; _array = _this.dataset.pml.split(\',\'); var tluser = _array.reduce(function(str,char) { str += String.fromCharCode(parseInt(char)); return str; },\'\'); var result = tluser.split(\'\').reverse().join(\'\'); _this.setAttribute(\'href\',\'mailto:\'+result); })(event)">' + link + '</a>';
         return result;
       });
     });
