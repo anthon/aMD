@@ -6,6 +6,8 @@
   ],
   "description": "A markdown editor",
   "main": [
+    "Markdown.Converter.js",
+    "Markdown.Sanitizer.js",
     "jquery.selection.js",
     "aMD.Converter.js",
     "jquery.aMD.js"
