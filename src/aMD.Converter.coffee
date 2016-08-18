@@ -182,7 +182,18 @@
             result = '<a href=""
                         style="unicode-bidi:bidi-override;direction:rtl"
                         data-pml="'+hashed_email+'"
-                        onclick="(function(e) {
+                        onmouseenter="(function(e) {
+                                    console.log(e);
+                                    _this = e.target;
+                                    _array = _this.dataset.pml.split(\',\');
+                                    var tluser = _array.reduce(function(str,char) {
+                                        str += String.fromCharCode(parseInt(char));
+                                        return str;
+                                    },\'\');
+                                    var result = tluser.split(\'\').reverse().join(\'\');
+                                    _this.setAttribute(\'href\',\'mailto:\'+result);
+                                })(event)"
+                        ontouchstart="(function(e) {
                                     console.log(e);
                                     _this = e.target;
                                     _array = _this.dataset.pml.split(\',\');
