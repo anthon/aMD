@@ -183,7 +183,6 @@
                         style="unicode-bidi:bidi-override;direction:rtl"
                         data-pml="'+hashed_email+'"
                         onmouseenter="(function(e) {
-                                    console.log(e);
                                     _this = e.target;
                                     _array = _this.dataset.pml.split(\',\');
                                     var tluser = _array.reduce(function(str,char) {
@@ -194,7 +193,6 @@
                                     _this.setAttribute(\'href\',\'mailto:\'+result);
                                 })(event)"
                         ontouchstart="(function(e) {
-                                    console.log(e);
                                     _this = e.target;
                                     _array = _this.dataset.pml.split(\',\');
                                     var tluser = _array.reduce(function(str,char) {
@@ -203,6 +201,10 @@
                                     },\'\');
                                     var result = tluser.split(\'\').reverse().join(\'\');
                                     _this.setAttribute(\'href\',\'mailto:\'+result);
+                                })(event)"
+                        onmouseleave="(function(e) {
+                                    _this = e.target;
+                                    _this.setAttribute(\'href\',\'\');
                                 })(event)">'+link+'</a>'
             return result
 
