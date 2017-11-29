@@ -285,7 +285,7 @@
       }
     };
     onKeyUp = function(e) {
-      var $selected, caret, container_offs, container_x, container_y, id, new_caret_pos, slug, tag, title, value;
+      var $selected, caret, container_offs, container_x, container_y, id, new_caret_pos, permalink, tag, title, value;
       if (settings.refEndpoint) {
         caret = getCaret();
         console.log(caret);
@@ -299,8 +299,8 @@
               $selected = $('li.selected', $refSelector);
               id = $selected.data('id');
               title = $selected.data('title');
-              slug = $selected.data('slug');
-              tag = '[' + title + '](node:' + id + '-' + slug + ')';
+              permalink = $selected.data('permalink');
+              tag = '[' + title + '](node:' + permalink + ')';
               value = $textBox.val().replace('@' + caret.ref, tag);
               $textBox.val(value);
               new_caret_pos = value.lastIndexOf(tag) + tag.length;
@@ -334,7 +334,7 @@
                 for (index = j = 0, len = response.length; j < len; index = ++j) {
                   node = response[index];
                   cls = index === 0 ? 'selected' : '';
-                  html += '<li class="' + cls + '" data-id="' + node.id + '" data-title="' + node.title + '" data-slug="' + node.slug + '">' + node.path + '</li>';
+                  html += '<li class="' + cls + '" data-id="' + node.id + '" data-title="' + node.title + '" data-permalink="' + node.permalink + '">' + node.path + '</li>';
                 }
                 html += '</ul>';
                 style = {

@@ -403,8 +403,8 @@
               $selected = $('li.selected',$refSelector)
               id = $selected.data 'id'
               title = $selected.data 'title'
-              slug = $selected.data 'slug'
-              tag = '['+title+'](node:'+id+'-'+slug+')'
+              permalink = $selected.data 'permalink'
+              tag = '['+title+'](node:'+permalink+')'
               value = $textBox.val().replace '@'+caret.ref,tag
               $textBox.val value
               new_caret_pos = value.lastIndexOf(tag)+tag.length
@@ -431,7 +431,7 @@
                 html = '<ul>'
                 for node, index in response
                   cls = if index is 0 then 'selected' else ''
-                  html += '<li class="'+cls+'" data-id="'+node.id+'" data-title="'+node.title+'" data-slug="'+node.slug+'">'+node.path+'</li>'
+                  html += '<li class="'+cls+'" data-id="'+node.id+'" data-title="'+node.title+'" data-permalink="'+node.permalink+'">'+node.path+'</li>'
                 html += '</ul>'
                 style =
                   top: caret.y + container_y + 24
