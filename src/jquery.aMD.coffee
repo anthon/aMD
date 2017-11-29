@@ -340,13 +340,8 @@
           value = el.value
           before = value.substring 0, end
           after = value.substr end
-          opening = before.match /@\{([^@\}]+)$/
-          if opening
-            before_ref = if opening then opening[1] else ''
-            ref_array = after.split /\}|@\{[^@\{]+\}/
-            reference = before_ref+ref_array[0]
-          else
-            reference = ''
+          opening = before.match /@([^@]+)$/
+          reference = if opening then opening[1] else ''
           to_return =
             char: value.slice end-1, end
             ref: reference
@@ -398,6 +393,7 @@
     onKeyUp = (e)->
       if settings.refEndpoint
         caret = getCaret()
+        console.log caret
         if $refSelector.is(':visible')
           switch e.keyCode
             when 38, 40
@@ -405,10 +401,11 @@
               break
             when 13
               $selected = $('li.selected',$refSelector)
-              ref = $selected.data 'ref'
-              tag = '@{'+ref+'}'
-              value = $textBox.val().replace '@{'+caret.ref+'}','@{'+caret.ref
-              value = value.replace '@{'+caret.ref, tag
+              id = $selected.data 'id'
+              title = $selected.data 'title'
+              slug = $selected.data 'slug'
+              tag = '['+title+'](node:'+id+'-'+slug+')'
+              value = $textBox.val().replace '@'+caret.ref,tag
               $textBox.val value
               new_caret_pos = value.lastIndexOf(tag)+tag.length
               $textBox.textrange 'setcursor', new_caret_pos
@@ -434,7 +431,7 @@
                 html = '<ul>'
                 for node, index in response
                   cls = if index is 0 then 'selected' else ''
-                  html += '<li class="'+cls+'" data-ref="'+node.id+'-'+node.title+'">'+node.path+'</li>'
+                  html += '<li class="'+cls+'" data-id="'+node.id+'" data-title="'+node.title+'" data-slug="'+node.slug+'">'+node.path+'</li>'
                 html += '</ul>'
                 style =
                   top: caret.y + container_y + 24

@@ -209,7 +209,7 @@
       return mdify(lines.join('\n'));
     };
     getCaret = function() {
-      var after, before, before_ref, el, end, opening, position, ref_array, reference, selection, to_return, value;
+      var after, before, el, end, opening, position, reference, selection, to_return, value;
       to_return = {
         char: '',
         ref: '',
@@ -225,14 +225,8 @@
           value = el.value;
           before = value.substring(0, end);
           after = value.substr(end);
-          opening = before.match(/@\{([^@\}]+)$/);
-          if (opening) {
-            before_ref = opening ? opening[1] : '';
-            ref_array = after.split(/\}|@\{[^@\{]+\}/);
-            reference = before_ref + ref_array[0];
-          } else {
-            reference = '';
-          }
+          opening = before.match(/@([^@]+)$/);
+          reference = opening ? opening[1] : '';
           to_return = {
             char: value.slice(end - 1, end),
             ref: reference,
@@ -291,9 +285,10 @@
       }
     };
     onKeyUp = function(e) {
-      var $selected, caret, container_offs, container_x, container_y, new_caret_pos, ref, tag, value;
+      var $selected, caret, container_offs, container_x, container_y, id, new_caret_pos, slug, tag, title, value;
       if (settings.refEndpoint) {
         caret = getCaret();
+        console.log(caret);
         if ($refSelector.is(':visible')) {
           switch (e.keyCode) {
             case 38:
@@ -302,10 +297,11 @@
               break;
             case 13:
               $selected = $('li.selected', $refSelector);
-              ref = $selected.data('ref');
-              tag = '@{' + ref + '}';
-              value = $textBox.val().replace('@{' + caret.ref + '}', '@{' + caret.ref);
-              value = value.replace('@{' + caret.ref, tag);
+              id = $selected.data('id');
+              title = $selected.data('title');
+              slug = $selected.data('slug');
+              tag = '[' + title + '](node:' + id + '-' + slug + ')';
+              value = $textBox.val().replace('@' + caret.ref, tag);
               $textBox.val(value);
               new_caret_pos = value.lastIndexOf(tag) + tag.length;
               $textBox.textrange('setcursor', new_caret_pos);
@@ -338,7 +334,7 @@
                 for (index = j = 0, len = response.length; j < len; index = ++j) {
                   node = response[index];
                   cls = index === 0 ? 'selected' : '';
-                  html += '<li class="' + cls + '" data-ref="' + node.id + '-' + node.title + '">' + node.path + '</li>';
+                  html += '<li class="' + cls + '" data-id="' + node.id + '" data-title="' + node.title + '" data-slug="' + node.slug + '">' + node.path + '</li>';
                 }
                 html += '</ul>';
                 style = {

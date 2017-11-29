@@ -178,10 +178,10 @@
       });
     });
     aMD.md.hooks.chain('preConversion', function(text) {
-      return text.replace(/@\{(\d+)(-(.[^\}]+))?\}/g, function(whole, id, has_title, title) {
+      return text.replace(/@\{(\d+)(-(.[^\}]+))?\}/g, function(whole, id, has_slug, slug) {
         var result;
-        title = has_title ? title : id;
-        result = '<a href="' + id + '" class="ref" data-id="' + id + '">' + title + '</a>';
+        slug = has_slug ? slug : id;
+        result = '<a href="' + slug + '" class="ref" data-id="' + id + '">' + slug + '</a>';
         return result;
       });
     });
