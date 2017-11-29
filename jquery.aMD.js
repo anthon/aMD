@@ -8,7 +8,8 @@
       imgPath: "../imgs/static/aMD",
       extStyles: ["../css/main.css"],
       icons: true,
-      helpers: true
+      helpers: true,
+      refEndpoint: false
     };
     settings = $.extend({}, defaults, options);
     aMD_editor = this;
@@ -284,6 +285,8 @@
             }
             return false;
             break;
+          case 13:
+            return e.preventDefault();
         }
       }
     };
@@ -303,12 +306,9 @@
               tag = '@{' + ref + '}';
               value = $textBox.val().replace('@{' + caret.ref + '}', '@{' + caret.ref);
               value = value.replace('@{' + caret.ref, tag);
-              new_caret_pos = value.lastIndexOf(tag) + tag.length;
               $textBox.val(value);
-              $textBox.textrange('setPos', {
-                start: new_caret_pos,
-                end: new_caret_pos
-              });
+              new_caret_pos = value.lastIndexOf(tag) + tag.length;
+              $textBox.textrange('setcursor', new_caret_pos);
               $refSelector.html('').hide();
               getText();
               return false;
@@ -320,7 +320,6 @@
         } else {
           $textBox.trigger('amd:reference', caret);
           container_offs = $('.aMD_container').offset();
-          console.log(container_offs);
           container_y = container_offs.top;
           container_x = container_offs.left;
           if (refRequest) {
