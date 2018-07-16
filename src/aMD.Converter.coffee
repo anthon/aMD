@@ -121,6 +121,7 @@
             return result
 
         # Select
+        # Legend = [] Label [x] Label
         aMD.md.hooks.chain 'preConversion', (text)->
           return text.replace /(\w[\w\/ \t\-\?\(\))]*)(\*)?[ \t]=[ \t]*(\{(>?([\w \t\-]+)+(\[[\w \t\-]+\])*<?([ \t]?\|[ \t]?)*)+\})+/g, (whole,label,required,options)->
             label = label.trim().replace /\t/g, ' '
@@ -139,6 +140,7 @@
               selected = if match[1] or match[4] then 'selected' else ''
               result += '<option value="'+value+'" type="option" name="'+name+'" '+selected+'>'+option_label+'</option>'
               match = option_regex.exec cleaned_options
+            result += '</select>'
             result += '</fieldset>'
             return result
 
