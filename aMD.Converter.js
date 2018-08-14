@@ -215,7 +215,7 @@
     });
     // Obfuscated email addresses
     aMD.md.hooks.chain('preConversion', function (text) {
-      return text.replace(/\[(\w[\w@ \t\-\.]*)\]\(mailto:(([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, function (whole, link, email, name, domain, topdomain) {
+      return text.replace(/\[(\w[\w@ \t\-\.]*)\]\((mailto:([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, function (whole, link, email, name, domain, topdomain) {
         var char, email_array, hashed_email, i, j, l, len, link_array, result;
         email_array = email.split('').reverse();
         email = email_array.join('');
