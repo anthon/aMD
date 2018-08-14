@@ -171,7 +171,7 @@
 
         # Obfuscated email addresses
         aMD.md.hooks.chain 'preConversion', (text)->
-          return text.replace /\[(\w[\w@ \t\-\.]*)\]\((([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
+          return text.replace /\[(\w[\w@ \t\-\.]*)\]\(mailto:(([\w-\.]+)@((?:[\w-\.]+\.)+)([a-zA-Z]{2,4}))\)/g, (whole,link,email,name,domain,topdomain)->
             email_array = email.split('').reverse()
             email = email_array.join('')
             link_array = link.split('').reverse()
